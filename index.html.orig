@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Morrow & Thread - made-to-order expressive apparel, jewellery and headwear." />
+    <meta name="theme-color" content="#f3efe6" />
+    <title>Morrow & Thread - Wear Your Point of View</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="utility"><span>Made slowly. Worn loudly.</span><span>India-wide delivery on launch</span></div>
+    <header class="site-header">
+      <a class="wordmark" href="#top" aria-label="Morrow and Thread home">MORROW<span>&amp;</span>THREAD</a>
+      <button class="menu-toggle" aria-label="Open menu" aria-expanded="false"><i></i><i></i></button>
+      <nav aria-label="Main navigation">
+        <a href="#shop">Shop the edit</a>
+        <a href="#process">How it works</a>
+        <a href="#journal">Journal</a>
+        <a href="#campaign">Campaign kit</a>
+      </nav>
+      <button class="bag" data-toast="The launch collection is currently unavailable.">Bag <span>0</span></button>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Custom goods for distinct people <span>01/03</span></p>
+          <h1>Wear your<br /><em>point of view.</em></h1>
+          <p class="lede">Small-run wardrobe pieces, finished with the colour, shape and detail that feel like yours.</p>
+          <div class="hero-actions"><a class="button button-dark" href="#shop">Explore the atelier <b>→</b></a><a class="text-link" href="#process">Our making notes <span>↘</span></a></div>
+        </div>
+        <section class="hero-art featured-edit" aria-label="Featured customisable items">
+          <div class="feature-orbit orbit-one"></div><div class="feature-orbit orbit-two"></div><div class="feature-stamp">ONE AT<br />A TIME</div>
+          <button class="feature-card" type="button" aria-label="Open custom shoe options">
+            <span class="feature-status">01 / 07 · OUT OF STOCK</span>
+            <span class="feature-object type-shoe" aria-hidden="true"><i></i><b></b></span>
+            <span class="feature-copy"><small>Featured custom piece</small><strong>THE DAY<br />ONE SHOE</strong><em>Choose your colours →</em></span>
+          </button>
+          <div class="feature-controls"><button class="feature-prev" type="button" aria-label="Previous featured item">←</button><span class="feature-dots" aria-label="Featured item 1 of 7"></span><button class="feature-next" type="button" aria-label="Next featured item">NEXT <b>→</b></button></div>
+          <p class="art-caption">CLICK THE PIECE<br />TO MAKE IT YOURS</p>
+        </section>
+        <div class="hero-note"><span>←</span> Scroll to find your<br />future favourite</div>
+      </section>
+
+      <section class="marquee" aria-label="Brand values"><div>PERSONAL, NOT PRECIOUS <b>✦</b> MADE IN SMALL RUNS <b>✦</b> PERSONAL, NOT PRECIOUS <b>✦</b> MADE IN SMALL RUNS <b>✦</b></div></section>
+
+      <section class="fit-studio" id="fit-studio" aria-labelledby="studio-title">
+        <div class="studio-title"><p class="eyebrow">A different kind of personal</p><h2 id="studio-title">THE DETAIL IS<br /><em>THE POINT.</em></h2><p>Build the person first. Hover a region to discover pieces designed for it.</p></div>
+        <aside class="profile-panel" aria-label="Customise your figure">
+          <p class="eyebrow">01 / Build your figure</p>
+          <div class="profile-field"><label>Identity</label><div class="profile-options" data-style="identity"><button class="active" data-value="Woman">Woman</button><button data-value="Man">Man</button><button data-value="Non-binary">Non-binary</button></div></div>
+          <div class="profile-field"><label>Height</label><div class="profile-options" data-style="height"><button data-value="Petite">Petite</button><button class="active" data-value="Medium">Medium</button><button data-value="Tall">Tall</button></div></div>
+          <div class="profile-field"><label>Body shape</label><div class="profile-options" data-style="body"><button class="active" data-value="Classic">Classic</button><button data-value="Curve">Curve</button><button data-value="Relaxed">Relaxed</button></div></div>
+          <div class="profile-field"><label>Skin tone</label><div class="skin-options" data-style="skin"><button class="skin-one active" data-value="Warm sand" aria-label="Warm sand skin tone"></button><button class="skin-two" data-value="Deep umber" aria-label="Deep umber skin tone"></button><button class="skin-three" data-value="Golden brown" aria-label="Golden brown skin tone"></button><button class="skin-four" data-value="Rich espresso" aria-label="Rich espresso skin tone"></button></div></div>
+          <div class="profile-field"><label>Hair</label><div class="profile-options" data-style="hair"><button class="active" data-value="Soft curls">Soft curls</button><button data-value="Coils">Coils</button><button data-value="Wave">Wave</button></div></div>
+          <p class="profile-readout">Your edit: <strong>Woman · Medium · Classic</strong></p>
+        </aside>
+        <div class="figure-stage">
+          <p class="hover-hint">Hover the figure</p>
+          <div class="person figure-woman tone-sand hair-curls" aria-label="Interactive customisable figure">
+            <button class="hotspot hotspot-head" data-zone="head" aria-label="Explore headwear"></button>
+            <button class="hotspot hotspot-torso" data-zone="torso" aria-label="Explore tops"></button>
+            <button class="hotspot hotspot-waist" data-zone="waist" aria-label="Explore layers and belts"></button>
+            <button class="hotspot hotspot-legs" data-zone="legs" aria-label="Explore trousers and skirts"></button>
+            <button class="hotspot hotspot-feet" data-zone="feet" aria-label="Explore shoes"></button>
+            <div class="figure-hair"></div><div class="figure-head"></div><div class="figure-neck"></div><div class="figure-torso"></div><div class="figure-arm arm-left"></div><div class="figure-arm arm-right"></div><div class="figure-hip"></div><div class="figure-leg leg-left"></div><div class="figure-leg leg-right"></div><div class="figure-foot foot-left"></div><div class="figure-foot foot-right"></div>
+          </div>
+          <span class="figure-shadow"></span><span class="zone-label">TORSO</span>
+        </div>
+        <aside class="region-panel" aria-live="polite"><p class="eyebrow">02 / Your selection</p><p class="region-kicker">Hovering: <span>Torso</span></p><h3>Top it<br /><em>your way.</em></h3><p class="region-description">Easy shapes, clear colour and a detail that turns a basic into your own.</p><div class="region-products"></div><button class="region-action button button-dark" type="button">See torso options <b>→</b></button></aside>
+      </section>
+
+      <section class="shop section-pad" id="shop">
+        <div class="section-heading"><div><p class="eyebrow">The launch edit</p><h2>Pieces with a say.</h2></div><div class="filters" role="group" aria-label="Product category filters"><button class="active" data-filter="all">All pieces</button><button data-filter="apparel">Apparel</button><button data-filter="jewellery">Jewellery</button><button data-filter="headwear">Headwear</button></div></div>
+        <div class="product-grid">
+          <article class="product-card" data-category="apparel">
+            <div class="product-image amber tshirt"><span class="sold">Out of stock</span><span class="product-mark">M&amp;T</span></div>
+            <div class="product-meta"><div><h3>The Sunday Tee</h3><p>Organic cotton · 6 colourways</p></div><strong>₹2,400</strong></div>
+            <button class="product-link" data-product="The Sunday Tee">View custom options <span>↗</span></button>
+          </article>
+          <article class="product-card" data-category="jewellery">
+            <div class="product-image cobalt charm"><span class="sold">Out of stock</span><span class="product-mark">M&amp;T</span></div>
+            <div class="product-meta"><div><h3>The Elsewhere Charm</h3><p>Recycled silver · 12 symbols</p></div><strong>₹1,850</strong></div>
+            <button class="product-link" data-product="The Elsewhere Charm">View custom options <span>↗</span></button>
+          </article>
+          <article class="product-card" data-category="headwear">
+            <div class="product-image moss cap"><span class="sold">Out of stock</span><span class="product-mark">M&amp;T</span></div>
+            <div class="product-meta"><div><h3>The Field Cap</h3><p>Brushed twill · 4 placements</p></div><strong>₹1,600</strong></div>
+            <button class="product-link" data-product="The Field Cap">View custom options <span>↗</span></button>
+          </article>
+          <article class="product-card" data-category="apparel">
+            <div class="product-image rose sweater"><span class="sold">Out of stock</span><span class="product-mark">M&amp;T</span></div>
+            <div class="product-meta"><div><h3>The After Hours Knit</h3><p>Soft wool blend · 5 initials</p></div><strong>₹4,800</strong></div>
+            <button class="product-link" data-product="The After Hours Knit">View custom options <span>↗</span></button>
+          </article>
+        </div>
+        <p class="stock-note">Everything here is a prototype for our first drop. <button data-toast="Thanks for your interest - we’ll share launch news soon.">Join the restock list</button> to hear when the atelier opens.</p>
+      </section>
+
+      <section class="process" id="process">
+        <div class="section-pad"><p class="eyebrow">From blank to belonging</p><h2>A little more <em>you,</em><br />by design.</h2></div>
+        <ol class="process-steps">
+          <li><span>01</span><div><h3>Choose your base</h3><p>Start with the shape that already earns its place in your wardrobe.</p></div><b>↓</b></li>
+          <li><span>02</span><div><h3>Make it unmistakable</h3><p>Pick a palette, placement, and a quiet detail made just for you.</p></div><b>↓</b></li>
+          <li><span>03</span><div><h3>Keep it in rotation</h3><p>Made in limited runs, intended for years of ordinary good days.</p></div><b>↗</b></li>
+        </ol>
+      </section>
+
+      <section class="journal section-pad" id="journal">
+        <div class="journal-visual"><div class="poster-text">YOUR<br />SHAPE<br />YOUR<br /><em>SAY.</em></div><div class="ribbon">MORROW &amp; THREAD · MORROW &amp; THREAD · </div></div>
+        <div class="journal-copy"><p class="eyebrow">From the journal</p><h2>The objects we hold on to are rarely perfect.</h2><p>They pick up a story, a scratch, a private joke. We make things with enough character to collect one.</p><a class="text-link" href="#campaign">Read the campaign thinking <span>↗</span></a></div>
+      </section>
+
+      <section class="campaign" id="campaign">
+        <div class="campaign-title section-pad"><p class="eyebrow">Assessment companion</p><h2>Marketing, with<br /><em>intent.</em></h2><div><p>This live campaign kit translates the brand into a clear audience, content rhythm and measurable traffic plan.</p><p class="design-note"><strong>Design rationale:</strong> Editorial type, hand-drawn product forms and an earthy, optimistic palette position the brand as personal and design-led, rather than another generic custom-print store.</p></div></div>
+        <div class="campaign-tabs" role="tablist" aria-label="Campaign kit sections"><button class="active" role="tab" data-panel="persona">01 Buyer persona</button><button role="tab" data-panel="social">02 Social strategy</button><button role="tab" data-panel="ads">03 Search &amp; GA4</button></div>
+        <div class="campaign-panels section-pad">
+          <article class="campaign-panel active" id="persona">
+            <div class="persona-name"><p class="eyebrow">Primary audience</p><h3>Aanya Shah</h3><p class="persona-role">24 · Junior Art Director · Mumbai</p><div class="persona-avatar"><span>AS</span></div></div>
+            <div class="persona-details"><div><p class="label">Snapshot</p><p>₹7.2L annual income · lives in Bandra with two flatmates · shops online 2-3 times monthly.</p></div><div><p class="label">Motivations</p><p>Signals individuality without looking overdone. Values a design story, thoughtful packaging and pieces that photograph well.</p></div><div><p class="label">Friction</p><p>Distrusts generic customisation, unclear sizing and long delivery windows. Needs proof before committing.</p></div><div><p class="label">Digital behaviour</p><p>Discovers through Instagram Reels and creators; saves Pinterest references; searches Google when comparison-ready.</p></div></div>
+          </article>
+          <article class="campaign-panel" id="social">
+            <div class="social-intro"><p class="eyebrow">Instagram + Pinterest</p><h3>Inspire first.<br /><em>Convert with clarity.</em></h3><p>Instagram makes the process feel human; Pinterest captures high-intent style planners. Both lead to the customisation landing page.</p></div>
+            <div class="calendar"><div class="calendar-head"><span>Week</span><span>Instagram</span><span>Pinterest</span></div><div><b>01</b><p><strong>Reel</strong> 3 ways to style the Sunday Tee</p><p><strong>Pin</strong> Capsule wardrobe colour story</p></div><div><b>02</b><p><strong>Carousel</strong> Choose the detail</p><p><strong>Pin</strong> Monogram placement guide</p></div><div><b>03</b><p><strong>Reel</strong> From sketch to stitch</p><p><strong>Pin</strong> Personal-gift ideas</p></div><div><b>04</b><p><strong>Creator post</strong> Aanya's edit</p><p><strong>Pin</strong> First-drop lookbook</p></div></div>
+            <div class="social-samples"><div class="insta-sample"><small>@morrowandthread</small><b>YOUR<br />COLOUR<br />IS A<br /><em>CLUE.</em></b><span>Save this for later →</span></div><div><p class="label">Sample caption</p><p>Some colours belong in a moodboard. Some belong on you. Choose your starting point, then make the detail yours. #WearYourPointOfView #CustomStyle #MadeInIndia</p><p class="tiny">Objective: saves and landing-page visits · Audience: urban, style-led 20-30 year olds</p></div></div>
+          </article>
+          <article class="campaign-panel" id="ads">
+            <div class="ad-plan"><p class="eyebrow">Google Search campaign</p><h3>“Make it yours”</h3><dl><dt>Objective</dt><dd>Qualified traffic &amp; restock-list leads</dd><dt>Audience</dt><dd>18-34, Mumbai / Delhi / Bengaluru; fashion and gifting intent</dd><dt>Keywords</dt><dd>custom t shirts india · personalised jewellery india · custom caps · unique gifts india · sustainable streetwear</dd><dt>Landing page</dt><dd>morrowandthread.in/launch-edit</dd><dt>Conversion</dt><dd>Restock-list form submission</dd></dl></div>
+            <div class="ad-preview"><p class="ad-label">Sponsored · morrowandthread.in</p><h4>Custom Apparel &amp; Jewellery | Morrow &amp; Thread</h4><p>Make the everyday unmistakably yours. Discover small-run pieces with room for your point of view.</p><div class="ad-links"><span>Custom Tees</span><span>Personal Charms</span><span>Launch Edit</span></div></div>
+            <div class="ga4"><p class="eyebrow">GA4 measurement plan</p><div><span>Awareness</span><strong>view_item_list</strong><p>Collection viewed</p></div><div><span>Consideration</span><strong>select_item</strong><p>Product option opened</p></div><div><span>Intent</span><strong>generate_lead</strong><p>Restock list submitted</p></div><div><span>Quality</span><strong>engaged_session</strong><p>60+ sec or 2+ pages</p></div></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="newsletter"><div><p class="eyebrow">First dibs, no noise</p><h2>When the doors open,<br />you’ll know.</h2></div><form id="restock-form"><label class="sr-only" for="email">Email address</label><input id="email" type="email" placeholder="Your email address" required /><button class="button button-light" type="submit">Keep me posted <b>→</b></button><p class="form-note">No shop is live yet. This demo form won’t collect your details.</p></form></section>
+    </main>
+
+    <footer><a class="wordmark" href="#top">MORROW<span>&amp;</span>THREAD</a><p>Made as a digital marketing campaign prototype.<br />Mumbai, India · <a href="mailto:hello@morrowandthread.in">hello@morrowandthread.in</a></p><div><a href="#campaign">Instagram</a><a href="#campaign">Pinterest</a><a href="#campaign">Terms</a></div></footer>
+    <dialog id="product-dialog"><button class="close-dialog" aria-label="Close">×</button><div class="dialog-art"><div class="mini-shirt"></div></div><div><p class="eyebrow">Customisation preview</p><h2 id="dialog-title">The Sunday Tee</h2><p>Choose a colour to preview the collection direction. The first drop is not open for orders yet.</p><div class="custom-options" aria-label="Customisation choices"></div><div class="swatches" aria-label="Colour options"><button class="swatch amber active" aria-label="Ochre"></button><button class="swatch cobalt" aria-label="Blue"></button><button class="swatch rose" aria-label="Rose"></button><button class="swatch moss" aria-label="Moss"></button></div><button class="button button-dark" data-toast="This item is out of stock. Join the restock list below for launch news.">Out of stock <b>↘</b></button></div></dialog>
+    <div class="toast" role="status" aria-live="polite"></div>
+    <script src="app.js"></script>
+  </body>
+</html>
