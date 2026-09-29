@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interactive Showcase - frayD</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 </head>
 <body class="showcase-page">
     <nav class="glass-nav">
@@ -22,14 +24,14 @@
         <!-- Left Column (Base Customisation Panel) -->
         <aside class="panel left-panel glass-panel">
             <h2>Base Avatar Setup</h2>
-            <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 1.2rem;">Customise your 3D avatar figure in real-time.</p>
+            <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 1.2rem;">Customise your realistic 3D model figure in real-time.</p>
             
             <div class="control-group">
                 <label>Gender / Silhouette <span class="badge-readout" id="gender-badge">Female</span></label>
                 <select id="gender-select">
-                    <option value="female" selected>Female (Curved Waist & Soft Facial Feature)</option>
-                    <option value="male">Male (Broad Shoulder & Chiseled Jaw)</option>
-                    <option value="non-binary">Non-Binary (Sculpted Neutral Feature)</option>
+                    <option value="female" selected>Female (Editorial Runway Curves & High-Fashion Posture)</option>
+                    <option value="male">Male (Sculpted Athletic Runway & Chiseled Jawline)</option>
+                    <option value="non-binary">Non-Binary (Sleek Architectural Neutral)</option>
                 </select>
             </div>
 
@@ -37,29 +39,29 @@
                 <label>Ethnicity Preset <span class="badge-readout" id="ethnicity-badge">Global Standard</span></label>
                 <select id="ethnicity-preset">
                     <option value="default" selected>Global Standard</option>
-                    <option value="south-asian">South Asian (Golden Warm Tone & Almond Eyes)</option>
-                    <option value="east-asian">East Asian (Porcelain Tone & Smooth Contour)</option>
-                    <option value="african">Afro-Descendant (Rich Umber Tone & Full Lips)</option>
-                    <option value="caucasian">European (Light Ivory & Hazel Eyes)</option>
+                    <option value="south-asian">South Asian (Warm Golden Olive & Deep Undertones)</option>
+                    <option value="east-asian">East Asian (Porcelain Ivory & Smooth Contour)</option>
+                    <option value="african">Afro-Descendant (Rich Espresso & Bronze Sheen)</option>
+                    <option value="caucasian">European (Fair Warm & Neutral Undertone)</option>
                 </select>
             </div>
 
             <div class="control-group">
                 <label>3D Hair Style <span class="badge-readout" id="hair-badge">Side-Part Sweep</span></label>
                 <select id="hair-style">
-                    <option value="side-part" selected>3D Side-Part Sweep</option>
-                    <option value="long-waves">3D Long Waves (Strands Behind Face)</option>
-                    <option value="curly-puff">3D Afro Textured Puff</option>
-                    <option value="short-crop">3D Textured Crop Cut</option>
-                    <option value="buzz-cut">3D Buzz Cut</option>
-                    <option value="bald">Bald / Shaved</option>
+                    <option value="side-part" selected>3D Editorial Side-Part</option>
+                    <option value="long-waves">3D Long Layered Waves</option>
+                    <option value="curly-puff">3D Textured Afro High Puff</option>
+                    <option value="short-crop">3D Modern Textured Crop</option>
+                    <option value="buzz-cut">3D Sculpted Buzz Cut</option>
+                    <option value="bald">Minimalist Bald / Shaved</option>
                 </select>
             </div>
 
             <div class="control-group">
                 <label>Hair Color</label>
                 <div style="display: flex; gap: 10px; align-items: center;">
-                    <input type="color" id="hair-color" value="#4a2e1b" style="height: 38px; width: 60px; padding: 2px;">
+                    <input type="color" id="hair-color" value="#3a2212" style="height: 38px; width: 60px; padding: 2px;">
                     <span style="font-size: 0.85rem; color: var(--text-muted);" id="hair-color-name">Chestnut Brown</span>
                 </div>
             </div>
@@ -73,22 +75,22 @@
             </div>
 
             <div class="control-group">
-                <label>Skin Tone Swatches</label>
+                <label>Skin Tone & Melanin PBR</label>
                 <div class="color-picker" id="skin-picker">
                     <div class="swatch active" style="background: #f3c299;" data-tone="#f3c299" title="Peach Warm"></div>
                     <div class="swatch" style="background: #e0ac69;" data-tone="#e0ac69" title="Golden Olive"></div>
-                    <div class="swatch" style="background: #8d5524;" data-tone="#8d5524" title="Deep Bronze"></div>
-                    <div class="swatch" style="background: #4a2810;" data-tone="#4a2810" title="Rich Espresso"></div>
-                    <div class="swatch" style="background: #ffdbac;" data-tone="#ffdbac" title="Light Porcelain"></div>
+                    <div class="swatch" style="background: #a26538;" data-tone="#a26538" title="Warm Cinnamon"></div>
+                    <div class="swatch" style="background: #5c351b;" data-tone="#5c351b" title="Rich Espresso"></div>
+                    <div class="swatch" style="background: #ffe3cf;" data-tone="#ffe3cf" title="Light Porcelain"></div>
                 </div>
             </div>
 
             <div class="control-group">
                 <label>Body Proportions</label>
                 <select id="body-type">
-                    <option value="athletic" selected>Athletic Fit</option>
-                    <option value="slim">Slim / Lean</option>
-                    <option value="plus">Plus / Curvy</option>
+                    <option value="athletic" selected>Athletic Runway Silhouette</option>
+                    <option value="slim">Slim / High-Fashion Lean</option>
+                    <option value="plus">Full / Sculpted Curves</option>
                 </select>
             </div>
 
@@ -98,330 +100,42 @@
             </div>
         </aside>
 
-        <!-- Center Column (Character Figure with Back Hair Layering & Distinct Garments) -->
-        <section class="center-panel">
-            <div class="figure-container gender-female body-athletic sleeves-short" id="figure-container">
-                <svg id="human-svg" viewBox="0 0 320 640" class="svg-figure">
-                    <defs>
-                        <linearGradient id="skinGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stop-color="#ffebd4" id="skinGrad1" />
-                            <stop offset="60%" stop-color="#f3c299" id="skinGrad2" />
-                            <stop offset="100%" stop-color="#d9996b" id="skinGrad3" />
-                        </linearGradient>
+        <!-- Center Column (Interactive 3D WebGL Studio Mannequin) -->
+        <section class="center-panel" id="center-panel">
+            <!-- 3D Studio Top Control Bar -->
+            <div class="studio-bar">
+                <div class="studio-badge"><span class="pulse-dot"></span> 3D RUNWAY ENGINE</div>
+                
+                <div class="studio-modes">
+                    <button class="mode-btn active" data-light="atelier" id="light-atelier" title="Atelier Gold Luxury Lighting">Atelier</button>
+                    <button class="mode-btn" data-light="cyber" id="light-cyber" title="Cyberpunk Neon Rim Lighting">Cyber Neon</button>
+                    <button class="mode-btn" data-light="editorial" id="light-editorial" title="Minimalist Monochrome Lighting">Editorial</button>
+                </div>
 
-                        <linearGradient id="hairGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                            <stop offset="0%" stop-color="#6e462d" id="hairGrad1" />
-                            <stop offset="40%" stop-color="#4a2e1b" id="hairGrad2" />
-                            <stop offset="100%" stop-color="#211208" id="hairGrad3" />
-                        </linearGradient>
+                <div class="studio-actions">
+                    <button class="tool-btn" id="btn-autorotate" title="Toggle 360 Turntable Auto-Rotation">
+                        <span class="btn-icon">↻</span> <span id="autorotate-text">Auto-Spin</span>
+                    </button>
+                    <button class="tool-btn" id="btn-reset-cam" title="Reset Camera View">
+                        <span class="btn-icon">⊙</span> Reset
+                    </button>
+                </div>
+            </div>
 
-                        <radialGradient id="eyeIrisGrad" cx="50%" cy="50%" r="50%">
-                            <stop offset="0%" stop-color="#5a3d28" />
-                            <stop offset="70%" stop-color="#2a180c" />
-                            <stop offset="100%" stop-color="#000000" />
-                        </radialGradient>
-                    </defs>
+            <!-- 3D WebGL Canvas Container -->
+            <div id="webgl-canvas-container" class="webgl-stage">
+                <!-- Three.js Canvas mounts here dynamically -->
+            </div>
 
-                    <!-- LAYER 1: BACK HAIR STRANDS (RENDERED BEHIND SHOULDERS, NECK AND FACE) -->
-                    <g id="hair-back-layer">
-                        <path id="hair-back-long" class="fig-hair" fill="url(#hairGrad)" d="M 104 70 Q 92 140 102 220 L 124 220 Q 120 150 128 75 Z M 216 70 Q 228 140 218 220 L 196 220 Q 200 150 192 75 Z" style="display:none;" />
-                    </g>
-
-                    <!-- LAYER 2: ANATOMICAL BODY GROUP -->
-                    <g id="fig-body-group">
-                        <!-- FEET REGION -->
-                        <g id="region-feet" class="fig-part" data-region="feet">
-                            <g id="foot-left-group">
-                                <path class="fig-skin" d="M 118 545 L 115 565 L 138 565 L 135 545 Z" />
-                                <path id="base-shoe-left" fill="#3a3028" d="M 112 562 C 105 562, 92 572, 88 585 C 86 592, 92 602, 110 602 L 140 602 C 146 602, 148 592, 142 580 C 138 568, 126 562, 112 562 Z" />
-                                <path fill="#e8e0d5" d="M 86 595 L 144 595 C 146 595, 145 604, 140 604 L 90 604 C 85 604, 84 595, 86 595 Z" />
-                            </g>
-                            <g id="foot-right-group">
-                                <path class="fig-skin" d="M 185 545 L 182 565 L 205 565 L 202 545 Z" />
-                                <path id="base-shoe-right" fill="#3a3028" d="M 208 562 C 215 562, 228 572, 232 585 C 234 592, 228 602, 210 602 L 180 602 C 174 602, 172 592, 178 580 C 182 568, 194 562, 208 562 Z" />
-                                <path fill="#e8e0d5" d="M 234 595 L 176 595 C 174 595, 175 604, 180 604 L 230 604 C 235 604, 236 595, 234 595 Z" />
-                            </g>
-                        </g>
-
-                        <!-- LEGS REGION -->
-                        <g id="region-legs" class="fig-part" data-region="legs">
-                            <path id="leg-left" class="fig-skin" d="M 125 315 L 118 555 L 138 555 L 148 315 Z" />
-                            <path id="leg-right" class="fig-skin" d="M 195 315 L 202 555 L 182 555 L 172 315 Z" />
-                            <path id="base-pants" fill="#2d3142" d="M 112 305 L 208 305 L 204 552 L 178 552 L 160 380 L 142 552 L 116 552 Z" />
-                        </g>
-
-                        <!-- TORSO & ARMS REGION (WITH SLEEVE TOGGLES & COLLAR FIT) -->
-                        <g id="region-torso" class="fig-part" data-region="torso">
-                            <!-- Arms Base Skin -->
-                            <path id="arm-left-skin" class="fig-skin" d="M 100 148 Q 82 230 78 310 L 94 310 Q 98 230 116 160 Z" />
-                            <path id="hand-left" class="fig-skin" d="M 78 310 Q 72 332 75 345 C 80 350, 90 340, 94 310 Z" />
-                            <path id="arm-right-skin" class="fig-skin" d="M 220 148 Q 238 230 242 310 L 226 310 Q 222 230 204 160 Z" />
-                            <path id="hand-right" class="fig-skin" d="M 242 310 Q 248 332 245 345 C 240 350, 230 340, 226 310 Z" />
-
-                            <!-- FEMALE TORSO -->
-                            <g id="fig-torso-female">
-                                <path class="fig-skin" d="M 115 140 C 108 165, 122 240, 125 310 L 195 310 C 198 240, 212 165, 205 140 Z" />
-                                <path fill="#e8ded1" d="M 138 140 Q 160 148 182 140 L 210 148 Q 222 152 216 195 L 195 198 L 196 308 L 124 308 L 125 198 L 104 195 Q 98 152 110 148 Z" />
-                                <!-- Collar -->
-                                <path d="M 138 140 L 160 162 L 182 140" stroke="rgba(0,0,0,0.15)" stroke-width="2" fill="none" />
-                            </g>
-
-                            <!-- MALE TORSO -->
-                            <g id="fig-torso-male" style="display:none;">
-                                <path class="fig-skin" d="M 102 138 C 95 165, 112 250, 118 310 L 202 310 C 208 250, 225 165, 218 138 Z" />
-                                <path fill="#d8cebf" d="M 136 138 Q 160 146 184 138 L 218 144 Q 230 148 222 198 L 200 202 L 202 308 L 118 308 L 120 202 L 98 198 Q 90 148 102 144 Z" />
-                                <path d="M 136 138 L 160 162 L 184 138" stroke="rgba(0,0,0,0.15)" stroke-width="2" fill="none" />
-                            </g>
-
-                            <!-- NON-BINARY TORSO -->
-                            <g id="fig-torso-nonbinary" style="display:none;">
-                                <path class="fig-skin" d="M 108 139 C 102 165, 116 245, 121 310 L 199 310 C 204 245, 218 165, 212 139 Z" />
-                                <path fill="#dfd4c6" d="M 137 139 Q 160 147 183 139 L 214 146 Q 226 150 219 196 L 197 200 L 199 308 L 121 308 L 123 200 L 101 196 Q 94 150 106 146 Z" />
-                                <path d="M 137 139 L 160 162 L 183 139" stroke="rgba(0,0,0,0.15)" stroke-width="2" fill="none" />
-                            </g>
-                        </g>
-
-                        <!-- HEAD & DISTINCT GENDER FACES (FEMALE, MALE, NON-BINARY) -->
-                        <g id="region-head" class="fig-part" data-region="head">
-                            <path id="neck" class="fig-skin" d="M 142 110 L 138 142 L 182 142 L 178 110 Z" />
-                            <ellipse id="ear-left" class="fig-skin" cx="110" cy="78" rx="10" ry="14" />
-                            <ellipse id="ear-right" class="fig-skin" cx="210" cy="78" rx="10" ry="14" />
-
-                            <!-- FEMALE FACE & FEATURES -->
-                            <g id="face-female">
-                                <path class="fig-skin" d="M 160 28 C 206 28, 214 68, 204 104 C 192 126, 175 134, 160 134 C 145 134, 128 126, 116 104 C 106 68, 114 28, 160 28 Z" />
-                            </g>
-                            <g id="features-female">
-                                <path id="eyebrow-left" d="M 130 60 Q 142 50 152 60" stroke="#4a2e1b" stroke-width="3.5" stroke-linecap="round" fill="none" />
-                                <path id="eyebrow-right" d="M 168 60 Q 178 50 190 60" stroke="#4a2e1b" stroke-width="3.5" stroke-linecap="round" fill="none" />
-                                <ellipse cx="140" cy="70" rx="9.5" ry="11.5" fill="#ffffff" />
-                                <ellipse id="pupil-left" cx="140" cy="71" rx="5.8" ry="7.2" fill="url(#eyeIrisGrad)" />
-                                <circle cx="138" cy="67" r="2.4" fill="#ffffff" />
-                                <ellipse cx="180" cy="70" rx="9.5" ry="11.5" fill="#ffffff" />
-                                <ellipse id="pupil-right" cx="180" cy="71" rx="5.8" ry="7.2" fill="url(#eyeIrisGrad)" />
-                                <circle cx="178" cy="67" r="2.4" fill="#ffffff" />
-                                <path id="nose" d="M 160 72 Q 157 83 160 85 Q 163 83 160 72 Z" fill="rgba(180, 110, 70, 0.35)" />
-                                <path id="mouth" d="M 146 100 Q 160 112 174 100" stroke="#be5050" stroke-width="3.2" fill="none" stroke-linecap="round" />
-                            </g>
-
-                            <!-- MALE FACE & CHISELED JAW FEATURES -->
-                            <g id="face-male" style="display:none;">
-                                <path class="fig-skin" d="M 160 26 C 210 26, 218 68, 208 106 C 196 130, 178 136, 160 136 C 142 136, 124 130, 112 106 C 102 68, 110 26, 160 26 Z" />
-                            </g>
-                            <g id="features-male" style="display:none;">
-                                <path d="M 128 62 Q 142 56 154 60" stroke="#3a2212" stroke-width="4.2" stroke-linecap="round" fill="none" />
-                                <path d="M 166 60 Q 178 56 192 62" stroke="#3a2212" stroke-width="4.2" stroke-linecap="round" fill="none" />
-                                <ellipse cx="140" cy="71" rx="9" ry="10" fill="#ffffff" />
-                                <ellipse cx="140" cy="72" rx="5.2" ry="6.2" fill="url(#eyeIrisGrad)" />
-                                <circle cx="138" cy="68" r="2" fill="#ffffff" />
-                                <ellipse cx="180" cy="71" rx="9" ry="10" fill="#ffffff" />
-                                <ellipse cx="180" cy="72" rx="5.2" ry="6.2" fill="url(#eyeIrisGrad)" />
-                                <circle cx="178" cy="68" r="2" fill="#ffffff" />
-                                <path d="M 160 70 L 155 84 L 165 84" stroke="rgba(160, 90, 50, 0.4)" stroke-width="2.2" fill="none" />
-                                <path d="M 144 102 Q 160 108 176 102" stroke="#a04444" stroke-width="3.5" fill="none" stroke-linecap="round" />
-                            </g>
-
-                            <!-- NON-BINARY FACE & FEATURES -->
-                            <g id="face-nonbinary" style="display:none;">
-                                <path class="fig-skin" d="M 160 27 C 207 27, 215 68, 205 105 C 193 128, 176 135, 160 135 C 144 135, 127 128, 115 105 C 105 68, 113 27, 160 27 Z" />
-                            </g>
-                            <g id="features-nonbinary" style="display:none;">
-                                <path d="M 129 61 Q 142 53 153 60" stroke="#3e2615" stroke-width="3.8" stroke-linecap="round" fill="none" />
-                                <path d="M 167 60 Q 178 53 191 61" stroke="#3e2615" stroke-width="3.8" stroke-linecap="round" fill="none" />
-                                <ellipse cx="140" cy="70.5" rx="9.2" ry="10.8" fill="#ffffff" />
-                                <ellipse cx="140" cy="71.5" rx="5.5" ry="6.8" fill="url(#eyeIrisGrad)" />
-                                <circle cx="138" cy="67.5" r="2.2" fill="#ffffff" />
-                                <ellipse cx="180" cy="70.5" rx="9.2" ry="10.8" fill="#ffffff" />
-                                <ellipse cx="180" cy="71.5" rx="5.5" ry="6.8" fill="url(#eyeIrisGrad)" />
-                                <circle cx="178" cy="67.5" r="2.2" fill="#ffffff" />
-                                <path d="M 160 71 Q 156 83 160 85 Q 164 83 160 71 Z" fill="rgba(170, 100, 60, 0.35)" />
-                                <path d="M 145 101 Q 160 110 175 101" stroke="#b04b4b" stroke-width="3.4" fill="none" stroke-linecap="round" />
-                            </g>
-
-                            <!-- FRONT HAIR SWEEP (FRAMES SCALP, NEVER COVERS EYES/NOSE/MOUTH!) -->
-                            <g id="hair-front-layer">
-                                <g id="hair-side-part" class="fig-hair-style active">
-                                    <path class="fig-hair" fill="url(#hairGrad)" d="M 108 72 C 100 30, 130 14, 160 14 C 190 14, 218 30, 212 72 C 218 38, 196 20, 160 20 C 130 20, 114 38, 108 72 Z" />
-                                    <path class="fig-hair" fill="url(#hairGrad)" d="M 104 74 C 98 46, 122 18, 175 16 Q 216 22, 212 62 C 206 94, 194 102, 186 75 C 180 46, 142 36, 112 62 Z" />
-                                </g>
-                                <g id="hair-long-waves" class="fig-hair-style">
-                                    <path class="fig-hair" fill="url(#hairGrad)" d="M 106 68 C 100 20, 132 10, 160 10 C 188 10, 220 20, 214 68 Z" />
-                                </g>
-                                <g id="hair-curly-puff" class="fig-hair-style">
-                                    <path class="fig-hair" fill="url(#hairGrad)" d="M 98 60 Q 86 30, 118 15 Q 142 2, 160 2 Q 178 2, 202 15 Q 234 30, 222 60 Z" />
-                                </g>
-                                <g id="hair-short-crop" class="fig-hair-style">
-                                    <path class="fig-hair" fill="url(#hairGrad)" d="M 112 65 C 108 30, 130 18, 160 18 C 190 18, 212 30, 208 65 Z" />
-                                </g>
-                                <g id="hair-buzz-cut" class="fig-hair-style">
-                                    <path class="fig-hair" fill="url(#hairGrad)" opacity="0.75" d="M 114 70 C 112 34, 132 24, 160 24 C 188 24, 208 34, 206 70 Z" />
-                                </g>
-                                <g id="hair-bald" class="fig-hair-style"></g>
-                            </g>
-                        </g>
-                    </g>
-
-                    <!-- LAYER 3: DISTINCT TRY-ON GARMENTS (EVERY ITEM HAS A UNIQUE VISUAL SHAPE) -->
-                    <!-- FOOTWEAR DISTINCT ITEMS -->
-                    <g id="feet-tryon-container" class="tryon-layer">
-                        <!-- F1: Chunky Sneakers -->
-                        <g id="garment-f1-sneakers" class="garment-item">
-                            <path class="tryon-garment" d="M 85 560 C 80 570, 88 606, 144 606 C 148 590, 138 560, 110 560 Z M 235 560 C 240 570, 232 606, 176 606 C 172 590, 182 560, 210 560 Z" fill="#ff007f" />
-                            <path stroke="#ffffff" stroke-width="2" fill="none" d="M 92 595 L 140 595 M 228 595 L 180 595" />
-                        </g>
-                        <!-- F2: Combat Boots -->
-                        <g id="garment-f2-boots" class="garment-item">
-                            <path class="tryon-garment" d="M 112 535 L 85 555 L 88 608 L 146 608 L 140 535 Z M 208 535 L 235 555 L 232 608 L 174 608 L 180 535 Z" fill="#22222b" />
-                            <path stroke="#ffc700" stroke-width="2" fill="none" d="M 116 545 L 116 590 M 204 545 L 204 590" />
-                        </g>
-                        <!-- F3: High-Top Canvas -->
-                        <g id="garment-f3-canvas" class="garment-item">
-                            <path class="tryon-garment" d="M 114 540 L 88 560 L 88 605 L 144 605 L 138 540 Z M 206 540 L 232 560 L 232 605 L 176 605 L 182 540 Z" fill="#00f0ff" />
-                            <path fill="#ffffff" d="M 88 592 L 105 592 L 110 605 L 88 605 Z M 232 592 L 215 592 L 210 605 L 232 605 Z" />
-                        </g>
-                        <!-- F4: Chelsea Boots -->
-                        <g id="garment-f4-chelsea" class="garment-item">
-                            <path class="tryon-garment" d="M 115 540 L 86 565 L 88 606 L 144 606 L 136 540 Z M 205 540 L 234 565 L 232 606 L 176 606 L 184 540 Z" fill="#4a2e1b" />
-                            <path fill="#111111" d="M 112 550 L 126 550 L 122 580 L 116 580 Z M 208 550 L 194 550 L 198 580 L 204 580 Z" />
-                        </g>
-                        <!-- F5: Cyber Slides -->
-                        <g id="garment-f5-slides" class="garment-item">
-                            <path class="tryon-garment" d="M 86 575 L 144 575 L 142 595 L 88 595 Z M 234 575 L 176 575 L 178 595 L 232 595 Z" fill="#ff5e00" />
-                        </g>
-                        <text class="tryon-text" x="160" y="590" fill="#ffffff" font-size="11" text-anchor="middle" font-weight="bold"></text>
-                        <g class="tryon-studs-group" opacity="0">
-                            <circle cx="110" cy="585" r="3" fill="#e0e0e0" />
-                            <circle cx="210" cy="585" r="3" fill="#e0e0e0" />
-                        </g>
-                    </g>
-
-                    <!-- LEGS DISTINCT ITEMS -->
-                    <g id="legs-tryon-container" class="tryon-layer">
-                        <!-- L1: Cargo Trousers -->
-                        <g id="garment-l1-cargo" class="garment-item">
-                            <path class="tryon-garment" d="M 108 300 L 212 300 L 208 554 L 174 554 L 160 375 L 146 554 L 112 554 Z" fill="#7928ca" />
-                            <rect x="110" y="410" width="22" height="30" rx="3" fill="rgba(0,0,0,0.3)" />
-                            <rect x="188" y="410" width="22" height="30" rx="3" fill="rgba(0,0,0,0.3)" />
-                        </g>
-                        <!-- L2: Distressed Jeans -->
-                        <g id="garment-l2-jeans" class="garment-item">
-                            <path class="tryon-garment" d="M 112 302 L 208 302 L 204 554 L 176 554 L 160 380 L 144 554 L 116 554 Z" fill="#2b4c7e" />
-                            <path stroke="#ffffff" stroke-width="2" fill="none" d="M 125 400 L 140 405 M 180 430 L 195 435" />
-                        </g>
-                        <!-- L3: Cyberpunk Shorts -->
-                        <g id="garment-l3-shorts" class="garment-item">
-                            <path class="tryon-garment" d="M 110 300 L 210 300 L 204 430 L 174 430 L 160 360 L 146 430 L 116 430 Z" fill="#ff007f" />
-                        </g>
-                        <!-- L4: Track Pants -->
-                        <g id="garment-l4-track" class="garment-item">
-                            <path class="tryon-garment" d="M 112 300 L 208 300 L 204 554 L 176 554 L 160 375 L 144 554 L 116 554 Z" fill="#1b1b24" />
-                            <path stroke="#00f0ff" stroke-width="4" fill="none" d="M 114 305 L 118 550 M 206 305 L 202 550" />
-                        </g>
-                        <!-- L5: Utility Joggers -->
-                        <g id="garment-l5-joggers" class="garment-item">
-                            <path class="tryon-garment" d="M 110 300 L 210 300 L 200 545 L 178 545 L 160 375 L 142 545 L 120 545 Z" fill="#3a3a48" />
-                            <rect x="120" y="545" width="22" height="10" fill="#1a1a24" />
-                            <rect x="178" y="545" width="22" height="10" fill="#1a1a24" />
-                        </g>
-                        <text class="tryon-text" x="160" y="430" fill="#ffffff" font-size="14" text-anchor="middle" font-weight="bold"></text>
-                        <g class="tryon-studs-group" opacity="0">
-                            <circle cx="130" cy="330" r="3" fill="#e0e0e0" />
-                            <circle cx="190" cy="330" r="3" fill="#e0e0e0" />
-                        </g>
-                    </g>
-
-                    <!-- TORSO DISTINCT ITEMS & SLEEVE LENGTH CONTROL -->
-                    <g id="torso-tryon-container" class="tryon-layer">
-                        <!-- T1: Deconstructed Graphic Tee (Collar + Short/Long Sleeves) -->
-                        <g id="garment-t1-tee" class="garment-item">
-                            <path class="tryon-garment" d="M 135 138 Q 160 148 185 138 L 214 145 Q 224 150 218 198 L 198 202 L 200 310 L 120 310 L 122 202 L 102 198 Q 96 150 106 145 Z" fill="#ff007f" />
-                            <!-- Collar Rib -->
-                            <path d="M 135 138 Q 160 152 185 138" stroke="#ffffff" stroke-width="3" fill="none" />
-                            <!-- Short Sleeves -->
-                            <path id="sleeve-short-left" class="tryon-garment" d="M 106 145 L 82 195 L 104 205 L 122 170 Z" fill="#ff007f" />
-                            <path id="sleeve-short-right" class="tryon-garment" d="M 214 145 L 238 195 L 216 205 L 198 170 Z" fill="#ff007f" />
-                            <!-- Long Sleeves -->
-                            <path id="sleeve-long-left" class="tryon-garment" d="M 106 145 L 76 308 L 94 308 L 122 170 Z" fill="#ff007f" style="display:none;" />
-                            <path id="sleeve-long-right" class="tryon-garment" d="M 214 145 L 244 308 L 226 308 L 198 170 Z" fill="#ff007f" style="display:none;" />
-                        </g>
-                        <!-- T2: Hyper-Object Hoodie (Hood cowl + Pouch + Sleeves) -->
-                        <g id="garment-t2-hoodie" class="garment-item">
-                            <!-- Hood cowl behind neck -->
-                            <path class="tryon-garment" d="M 125 120 Q 160 110 195 120 L 214 145 L 106 145 Z" fill="#5c1d9b" />
-                            <!-- Body -->
-                            <path class="tryon-garment" d="M 132 135 Q 160 145 188 135 L 218 145 L 204 315 L 116 315 L 102 145 Z" fill="#7928ca" />
-                            <!-- Pouch Pocket -->
-                            <path d="M 135 240 L 185 240 L 195 300 L 125 300 Z" fill="rgba(0,0,0,0.2)" />
-                            <!-- Sleeves -->
-                            <path class="tryon-garment" d="M 102 145 L 74 310 L 94 310 L 120 170 Z M 218 145 L 246 310 L 226 310 L 200 170 Z" fill="#7928ca" />
-                        </g>
-                        <!-- T3: Biker Vest (Sleeveless V-Neck) -->
-                        <g id="garment-t3-vest" class="garment-item">
-                            <path class="tryon-garment" d="M 128 138 L 160 185 L 192 138 L 212 150 L 196 310 L 124 310 L 108 150 Z" fill="#1f1f2a" />
-                            <path stroke="#ffc700" stroke-width="2" d="M 160 185 L 160 310 M 132 190 L 152 210" />
-                        </g>
-                        <!-- T4: Denim Jacket (Collared Jacket + Buttons) -->
-                        <g id="garment-t4-jacket" class="garment-item">
-                            <!-- Folding Collar -->
-                            <path class="tryon-garment" d="M 132 135 L 160 160 L 188 135 L 214 142 L 198 312 L 122 312 L 106 142 Z" fill="#2c4d75" />
-                            <path class="tryon-garment" d="M 106 142 L 74 308 L 94 308 L 122 170 Z M 214 142 L 246 308 L 226 308 L 198 170 Z" fill="#2c4d75" />
-                            <!-- Pocket flaps -->
-                            <rect x="130" y="170" width="22" height="18" fill="rgba(0,0,0,0.2)" />
-                            <rect x="168" y="170" width="22" height="18" fill="rgba(0,0,0,0.2)" />
-                        </g>
-                        <!-- T5: Zip Sweater (High Zip Neck) -->
-                        <g id="garment-t5-sweater" class="garment-item">
-                            <path class="tryon-garment" d="M 140 125 L 180 125 L 215 145 L 202 312 L 118 312 L 105 145 Z" fill="#00f0ff" />
-                            <path stroke="#000000" stroke-width="3" d="M 160 125 L 160 200" />
-                            <path class="tryon-garment" d="M 105 145 L 75 308 L 95 308 L 120 170 Z M 215 145 L 245 308 L 225 308 L 200 170 Z" fill="#00f0ff" />
-                        </g>
-                        <text class="tryon-text" x="160" y="225" fill="#ffffff" font-size="16" text-anchor="middle" font-weight="bold"></text>
-                        <g class="tryon-studs-group" opacity="0">
-                            <circle cx="135" cy="175" r="3.5" fill="#e0e0e0" />
-                            <circle cx="185" cy="175" r="3.5" fill="#e0e0e0" />
-                            <circle cx="160" cy="200" r="4" fill="#ffc700" />
-                        </g>
-                    </g>
-
-                    <!-- HEADWEAR DISTINCT ITEMS -->
-                    <g id="head-tryon-container" class="tryon-layer">
-                        <!-- H1: Cyber Snapback -->
-                        <g id="garment-h1-snapback" class="garment-item">
-                            <path class="tryon-garment" d="M 108 62 C 108 22, 130 12, 160 12 C 190 12, 212 22, 212 62 Z" fill="#00f0ff" />
-                            <!-- Flat Visor Bill -->
-                            <path fill="#00a8b5" d="M 98 60 L 222 60 L 216 68 L 104 68 Z" />
-                        </g>
-                        <!-- H2: Acid Beanie -->
-                        <g id="garment-h2-beanie" class="garment-item">
-                            <path class="tryon-garment" d="M 112 64 C 105 18, 130 8, 160 8 C 190 8, 215 18, 208 64 Z" fill="#ff007f" />
-                            <rect x="106" y="52" width="108" height="14" rx="3" fill="rgba(0,0,0,0.2)" />
-                        </g>
-                        <!-- H3: Tactical Bucket Hat -->
-                        <g id="garment-h3-bucket" class="garment-item">
-                            <path class="tryon-garment" d="M 120 50 C 120 25, 135 18, 160 18 C 185 18, 200 25, 200 50 Z" fill="#3a4a3a" />
-                            <!-- Downward Brim -->
-                            <path class="tryon-garment" d="M 95 62 L 225 62 L 215 50 L 105 50 Z" fill="#2d3a2d" />
-                        </g>
-                        <!-- H4: Vintage Beret -->
-                        <g id="garment-h4-beret" class="garment-item">
-                            <path class="tryon-garment" d="M 95 48 C 100 15, 160 12, 220 30 C 230 45, 200 55, 120 52 Z" fill="#7928ca" />
-                        </g>
-                        <!-- H5: Streetwear Balaclava -->
-                        <g id="garment-h5-balaclava" class="garment-item">
-                            <path class="tryon-garment" d="M 110 25 C 160 15, 210 25, 208 115 L 112 115 Z" fill="#1b1b24" />
-                            <!-- Eye Cutout -->
-                            <ellipse cx="160" cy="70" rx="42" ry="18" fill="rgba(0,0,0,0.8)" />
-                        </g>
-                        <text class="tryon-text" x="160" y="40" fill="#000000" font-size="12" text-anchor="middle" font-weight="bold"></text>
-                        <g class="tryon-studs-group" opacity="0">
-                            <circle cx="135" cy="46" r="2.5" fill="#ffffff" />
-                            <circle cx="160" cy="30" r="2.5" fill="#ffffff" />
-                            <circle cx="185" cy="46" r="2.5" fill="#ffffff" />
-                        </g>
-                    </g>
-                </svg>
-
-                <div class="hover-label" id="region-label">Hover Body Region</div>
+            <!-- Floating 3D Interaction Hints & Zone Tooltip -->
+            <div class="hover-label" id="region-label">CLICK 3D BODY ZONE TO DRESS</div>
+            
+            <div class="orbit-hint">
+                <span>🖱️ Click & Drag to Rotate 360°</span>
+                <span class="divider">•</span>
+                <span>🔍 Scroll to Zoom</span>
+                <span class="divider">•</span>
+                <span>✨ Click Model Body to Choose Garments</span>
             </div>
         </section>
 

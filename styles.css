@@ -338,96 +338,212 @@ input[type="range"] {
     box-shadow: 0 0 15px var(--accent-magenta);
 }
 
-/* Center Panel & Avatar Figure */
+/* Center Panel & 3D WebGL Studio Mannequin */
 .center-panel {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    background: radial-gradient(circle at center, rgba(121, 40, 202, 0.25) 0%, rgba(10, 6, 18, 0.96) 75%);
-}
-
-.figure-container {
-    position: relative;
-    width: 360px;
-    height: 640px;
-    display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
-    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    align-items: center;
+    position: relative;
+    background: radial-gradient(circle at center, rgba(121, 40, 202, 0.28) 0%, rgba(10, 6, 18, 0.98) 78%);
+    overflow: hidden;
+    user-select: none;
 }
 
-.svg-figure {
+.webgl-stage {
     width: 100%;
     height: 100%;
-    filter: drop-shadow(0 20px 30px rgba(0,0,0,0.7));
-    transition: transform 0.4s ease, filter 0.4s ease;
+    position: absolute;
+    top: 0;
+    left: 0;
+    cursor: grab;
+    outline: none;
+    z-index: 10;
 }
 
-.fig-part {
+.webgl-stage:active {
+    cursor: grabbing;
+}
+
+/* 3D Studio Top Control Bar */
+.studio-bar {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    right: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 40;
+    pointer-events: none;
+}
+
+.studio-badge {
+    background: rgba(14, 9, 28, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    color: var(--accent-cyan);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    pointer-events: auto;
+}
+
+.pulse-dot {
+    width: 8px;
+    height: 8px;
+    background: #00f0ff;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #00f0ff;
+    animation: pulse 1.8s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(0.9); opacity: 0.7; }
+    50% { transform: scale(1.3); opacity: 1; }
+    100% { transform: scale(0.9); opacity: 0.7; }
+}
+
+.studio-modes {
+    display: flex;
+    gap: 6px;
+    background: rgba(14, 9, 28, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 4px;
+    border-radius: 24px;
+    pointer-events: auto;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.mode-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-family: inherit;
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 6px 14px;
+    border-radius: 18px;
     cursor: pointer;
-    transition: filter 0.3s ease, opacity 0.3s ease, transform 0.3s ease;
+    transition: all 0.25s ease;
 }
 
-.fig-part:hover {
-    filter: brightness(1.2) drop-shadow(0 0 15px var(--accent-cyan));
+.mode-btn:hover {
+    color: #fff;
 }
 
-.fig-skin {
-    fill: #f3c299;
-    transition: fill 0.4s ease;
+.mode-btn.active {
+    background: var(--primary-grad);
+    color: #fff;
+    box-shadow: 0 0 14px var(--glow-pink);
 }
 
-/* GENDER VISUAL & FACIAL MORPHING */
-.gender-female #fig-torso-female, .gender-female #face-female, .gender-female #features-female { display: block; }
-.gender-female #fig-torso-male, .gender-female #face-male, .gender-female #features-male, .gender-female #fig-torso-nonbinary, .gender-female #face-nonbinary, .gender-female #features-nonbinary { display: none; }
-
-.gender-male #fig-torso-male, .gender-male #face-male, .gender-male #features-male { display: block; }
-.gender-male #fig-torso-female, .gender-male #face-female, .gender-male #features-female, .gender-male #fig-torso-nonbinary, .gender-male #face-nonbinary, .gender-male #features-nonbinary { display: none; }
-
-.gender-non-binary #fig-torso-nonbinary, .gender-non-binary #face-nonbinary, .gender-non-binary #features-nonbinary { display: block; }
-.gender-non-binary #fig-torso-female, .gender-non-binary #face-female, .gender-non-binary #features-female, .gender-non-binary #fig-torso-male, .gender-non-binary #face-male, .gender-non-binary #features-male { display: none; }
-
-/* BODY TYPE MORPHING */
-.body-slim #fig-body-group { transform-origin: center; transform: scaleX(0.88); }
-.body-athletic #fig-body-group { transform-origin: center; transform: scaleX(1.0); }
-.body-plus #fig-body-group { transform-origin: center; transform: scaleX(1.18); }
-
-/* SLEEVE LENGTH CONTROL */
-.sleeves-short #sleeve-long-left, .sleeves-short #sleeve-long-right { display: none !important; }
-.sleeves-short #sleeve-short-left, .sleeves-short #sleeve-short-right { display: block !important; }
-.sleeves-long #sleeve-short-left, .sleeves-long #sleeve-short-right { display: none !important; }
-.sleeves-long #sleeve-long-left, .sleeves-long #sleeve-long-right { display: block !important; }
-
-/* DISTINCT GARMENT SELECTION VISIBILITY RULES */
-.garment-item {
-    display: none;
-    transition: opacity 0.4s ease, transform 0.4s ease;
-    opacity: 0;
+.studio-actions {
+    display: flex;
+    gap: 8px;
+    pointer-events: auto;
 }
 
-.garment-item.active {
-    display: block;
-    opacity: 1;
+.tool-btn {
+    background: rgba(14, 9, 28, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    color: #fff;
+    font-family: inherit;
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 6px 12px;
+    border-radius: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
 }
 
+.tool-btn:hover {
+    border-color: var(--accent-magenta);
+    box-shadow: 0 0 15px rgba(255, 0, 127, 0.4);
+    transform: translateY(-1px);
+}
+
+.tool-btn.active {
+    background: rgba(255, 0, 127, 0.25);
+    border-color: var(--accent-magenta);
+    color: var(--accent-magenta);
+}
+
+.tool-btn .btn-icon {
+    font-size: 0.95rem;
+}
+
+/* Floating 3D Hover Tooltip */
 .hover-label {
     position: absolute;
-    top: 10px;
-    background: var(--primary-grad);
-    color: white;
-    padding: 6px 16px;
+    top: 75px;
+    background: rgba(10, 6, 18, 0.9);
+    border: 1px solid var(--accent-cyan);
+    color: var(--accent-cyan);
+    padding: 6px 18px;
     border-radius: 20px;
     font-weight: 800;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     text-transform: uppercase;
     letter-spacing: 1.5px;
     pointer-events: none;
     opacity: 0;
-    transition: opacity 0.2s, transform 0.2s;
-    box-shadow: 0 0 20px var(--glow-pink);
-    z-index: 50;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    box-shadow: 0 0 25px rgba(0, 240, 255, 0.35);
+    z-index: 35;
+    backdrop-filter: blur(8px);
+}
+
+/* Orbit & Zoom Hint Bar */
+.orbit-hint {
+    position: absolute;
+    bottom: 22px;
+    background: rgba(14, 9, 28, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 8px 18px;
+    border-radius: 22px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 30;
+    pointer-events: none;
+    box-shadow: 0 6px 25px rgba(0,0,0,0.5);
+    animation: fadeIn 1s ease;
+}
+
+.orbit-hint span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.orbit-hint .divider {
+    color: rgba(255, 255, 255, 0.2);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 /* Right Panel States */
