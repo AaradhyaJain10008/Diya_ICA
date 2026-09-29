@@ -47,7 +47,7 @@
             </div>
 
             <div class="control-group">
-                <label>3D Hair Style <span class="badge-readout" id="hair-badge">Side-Part Sweep</span></label>
+                <label>3D Hair Style <span class="badge-readout" id="hair-badge">3D Editorial Side-Part</span></label>
                 <select id="hair-style">
                     <option value="side-part" selected>3D Editorial Side-Part</option>
                     <option value="long-waves">3D Long Layered Waves</option>
@@ -165,33 +165,40 @@
 
                 <div class="custom-tools">
                     <div class="tool-group">
-                        <label>1. Custom Text Overlay</label>
-                        <input type="text" id="custom-text" placeholder="Type text overlay (e.g., FRAYD)...">
-                    </div>
-
-                    <div class="tool-group" style="display: flex; justify-content: space-between; align-items: center;">
-                        <label style="margin: 0;">2. Metallic Studs</label>
-                        <label class="switch">
-                            <input type="checkbox" id="toggle-studs">
-                            <span class="slider round"></span>
-                        </label>
+                        <label><span class="step-num">1</span> Custom Typography & Decal</label>
+                        <input type="text" id="custom-text" placeholder="Type text overlay (e.g. FRAYD, 2026)...">
                     </div>
 
                     <div class="tool-group">
-                        <label>3. Dye Color Overlay</label>
-                        <div style="display: flex; gap: 10px; align-items: center;">
-                            <input type="color" id="tie-dye-color" value="#ff007f" style="height: 40px; width: 60px; padding: 2px;">
-                            <span style="font-size: 0.85rem; color: var(--text-muted);">Pick Shade</span>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <label style="margin: 0;"><span class="step-num">2</span> Metallic Chrome Studs</label>
+                            <label class="switch">
+                                <input type="checkbox" id="toggle-studs">
+                                <span class="slider round"></span>
+                            </label>
                         </div>
                     </div>
 
                     <div class="tool-group">
-                        <label>4. Show Your Creativity</label>
-                        <button class="btn-secondary" style="width: 100%; border-radius: 10px; padding: 0.8rem;" id="open-creativity-btn">🎨 Apply Creative Tint</button>
+                        <label><span class="step-num">3</span> Fabric Dye Color</label>
+                        <div class="color-picker-row">
+                            <div class="color-input-wrapper">
+                                <input type="color" id="tie-dye-color" value="#ff007f">
+                            </div>
+                            <div>
+                                <div style="font-size: 0.88rem; font-weight: 700; color: #fff;" id="color-hex-label">#FF007F</div>
+                                <div style="font-size: 0.75rem; color: var(--text-muted);">Click swatch to pick custom shade</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tool-group">
+                        <label><span class="step-num">4</span> Expressive Runway Tint</label>
+                        <button class="btn-secondary" style="width: 100%; border-radius: 12px; padding: 0.75rem;" id="open-creativity-btn">🎨 Apply Creative Gradient Tint</button>
                     </div>
                 </div>
 
-                <button class="btn-remove-garment" id="remove-garment-btn">❌ Remove Current Garment</button>
+                <button class="btn-remove-garment" id="remove-garment-btn"><span>✕</span> Remove Current Garment</button>
                 <a href="catalog.html" id="collection-link" class="btn-primary full-width" style="margin-top: 1rem;">View Full Catalog Collection</a>
             </div>
         </aside>

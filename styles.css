@@ -42,6 +42,51 @@ body {
     overflow-x: hidden;
 }
 
+/* Sleek Theme-Blending Custom Scrollbars */
+*::-webkit-scrollbar,
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+.panel::-webkit-scrollbar,
+.left-panel::-webkit-scrollbar,
+.right-panel::-webkit-scrollbar,
+.apparel-grid::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+*::-webkit-scrollbar-track,
+html::-webkit-scrollbar-track,
+body::-webkit-scrollbar-track,
+.panel::-webkit-scrollbar-track,
+.left-panel::-webkit-scrollbar-track,
+.right-panel::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+*::-webkit-scrollbar-thumb,
+html::-webkit-scrollbar-thumb,
+body::-webkit-scrollbar-thumb,
+.panel::-webkit-scrollbar-thumb,
+.left-panel::-webkit-scrollbar-thumb,
+.right-panel::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, rgba(255, 0, 127, 0.7) 0%, rgba(121, 40, 202, 0.7) 100%);
+    border-radius: 10px;
+    box-shadow: 0 0 8px rgba(255, 0, 127, 0.35);
+    border: none;
+}
+
+*::-webkit-scrollbar-thumb:hover,
+.panel::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #00f0ff 0%, #ff007f 100%);
+    box-shadow: 0 0 14px rgba(0, 240, 255, 0.8);
+}
+
+* {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 0, 127, 0.6) transparent;
+}
+
+
 /* Glass Navigation */
 .glass-nav {
     position: fixed;
@@ -597,30 +642,213 @@ input[type="range"] {
     border: 1px dashed rgba(255, 255, 255, 0.18);
 }
 
+/* Back to Choices Glass Pill Button */
+.btn-text {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(0, 240, 255, 0.35);
+    color: var(--accent-cyan);
+    font-family: var(--font-body);
+    font-size: 0.84rem;
+    font-weight: 700;
+    padding: 8px 20px;
+    border-radius: 24px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 1.2rem;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 0 15px rgba(0, 240, 255, 0.15);
+}
+
+.btn-text:hover {
+    background: rgba(0, 240, 255, 0.18);
+    border-color: var(--accent-cyan);
+    color: #ffffff;
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.45);
+    transform: translateX(-4px);
+}
+
+/* Custom Garment Toolkit Container */
+.custom-tools {
+    background: rgba(14, 9, 28, 0.85);
+    padding: 1.5rem;
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    margin: 1.2rem 0;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.45);
+    display: flex;
+    flex-direction: column;
+    gap: 1.35rem;
+}
+
+.tool-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.tool-group label {
+    font-size: 0.86rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.tool-group input[type="text"] {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    font-family: var(--font-body);
+    font-size: 0.88rem;
+    padding: 10px 14px;
+    border-radius: 10px;
+    outline: none;
+    transition: all 0.25s ease;
+}
+
+.tool-group input[type="text"]:focus {
+    border-color: var(--accent-magenta);
+    box-shadow: 0 0 15px rgba(255, 0, 127, 0.35);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.step-num {
+    background: linear-gradient(135deg, #ff007f, #7928ca);
+    color: #ffffff;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 800;
+    box-shadow: 0 0 10px rgba(255, 0, 127, 0.45);
+    flex-shrink: 0;
+}
+
+/* Styled Color Picker Row */
+.color-picker-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 0, 127, 0.25);
+    padding: 10px 14px;
+    border-radius: 12px;
+    transition: all 0.25s ease;
+}
+
+.color-picker-row:hover {
+    border-color: var(--accent-magenta);
+    box-shadow: 0 0 15px rgba(255, 0, 127, 0.25);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.color-input-wrapper {
+    position: relative;
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 0 12px rgba(255, 0, 127, 0.4);
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.color-input-wrapper input[type="color"] {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    background: transparent;
+}
+
+/* Switch Controls */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 48px;
+    height: 26px;
+    flex-shrink: 0;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.15);
+    transition: .3s;
+    border-radius: 26px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .3s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background: var(--primary-grad);
+    box-shadow: 0 0 12px var(--glow-pink);
+    border-color: var(--accent-magenta);
+}
+
+input:checked + .slider:before {
+    transform: translateX(22px);
+}
+
 .btn-remove-garment {
     width: 100%;
-    padding: 0.7rem;
-    background: rgba(255, 50, 50, 0.2);
-    border: 1px solid rgba(255, 50, 50, 0.4);
-    color: #ff8888;
-    border-radius: 10px;
+    padding: 0.85rem;
+    background: rgba(255, 50, 50, 0.15);
+    border: 1px solid rgba(255, 80, 80, 0.35);
+    color: #ff9999;
+    border-radius: 12px;
     font-weight: 700;
+    font-family: inherit;
+    font-size: 0.88rem;
     cursor: pointer;
-    margin-top: 0.8rem;
+    margin-top: 0.5rem;
     transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
 }
 
 .btn-remove-garment:hover {
-    background: rgba(255, 50, 50, 0.4);
+    background: rgba(255, 50, 50, 0.35);
     color: #fff;
-}
-
-.custom-tools {
-    background: rgba(10, 6, 18, 0.65);
-    padding: 1.4rem;
-    border-radius: 14px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    margin: 1.2rem 0;
+    box-shadow: 0 0 20px rgba(255, 50, 50, 0.4);
+    transform: translateY(-1px);
 }
 
 /* Page 3: Catalog Styling */

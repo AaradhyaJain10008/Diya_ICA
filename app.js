@@ -1,5 +1,5 @@
 // app.js - frayD Interactive 3D WebGL Runway Showcase Engine
-// Powered by Three.js with PBR Materials, Realistic Anatomy, and Modular 3D Garments
+// Enhanced Human Anatomy Sculpting, Authentic Streetwear Garment Replication & Smart Gender Morphing
 
 document.addEventListener('DOMContentLoaded', () => {
     // -------------------------------------------------------------
@@ -41,6 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const customTextInput = document.getElementById('custom-text');
     const toggleStudsInput = document.getElementById('toggle-studs');
     const tieDyeColorInput = document.getElementById('tie-dye-color');
+    const colorHexLabel = document.getElementById('color-hex-label');
     const openCreativityBtn = document.getElementById('open-creativity-btn');
 
     let activeRegion = null;
@@ -50,6 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentHairColor = '#3a2212';
     let currentSleeveMode = 'short';
     let currentBodyType = 'athletic';
+    let currentHeightScale = 1.0;
 
     // -------------------------------------------------------------
     // 2. APPAREL DATA DEFINITIONS
@@ -63,24 +65,24 @@ document.addEventListener('DOMContentLoaded', () => {
             { id: 'h5', name: 'Streetwear Balaclava', icon: '🥷', defaultColor: '#1b1b24', type: 'balaclava' }
         ],
         torso: [
-            { id: 't1', name: 'Deconstructed Graphic Tee', icon: '👕', defaultColor: '#ff007f', type: 'tee' },
-            { id: 't2', name: 'Hyper-Object Hoodie', icon: '🧥', defaultColor: '#7928ca', type: 'hoodie' },
-            { id: 't3', name: 'Acid-Wash Biker Vest', icon: '🎽', defaultColor: '#1f1f2a', type: 'vest' },
+            { id: 't1', name: 'Deconstructed Graphic Tee', icon: '👕', defaultColor: '#141318', type: 'tee' },
+            { id: 't2', name: 'Hyper-Object Hoodie', icon: '🧥', defaultColor: '#6b21a8', type: 'hoodie' },
+            { id: 't3', name: 'Acid-Wash Biker Vest', icon: '🎽', defaultColor: '#22222d', type: 'vest' },
             { id: 't4', name: 'Oversized Denim Jacket', icon: '👔', defaultColor: '#2c4d75', type: 'jacket' },
-            { id: 't5', name: 'Techwear Zip Sweater', icon: '🥼', defaultColor: '#00f0ff', type: 'sweater' }
+            { id: 't5', name: 'Techwear Zip Sweater', icon: '🥼', defaultColor: '#111827', type: 'sweater' }
         ],
         legs: [
-            { id: 'l1', name: 'Modular Cargo Trousers', icon: '👖', defaultColor: '#7928ca', type: 'cargo' },
-            { id: 'l2', name: 'Distressed Selvedge Jeans', icon: '👖', defaultColor: '#2b4c7e', type: 'jeans' },
-            { id: 'l3', name: 'Cyberpunk Shorts', icon: '🩳', defaultColor: '#ff007f', type: 'shorts' },
-            { id: 'l4', name: 'Flare Track Pants', icon: '👖', defaultColor: '#1b1b24', type: 'track' },
-            { id: 'l5', name: 'Utility Joggers', icon: '👖', defaultColor: '#3a3a48', type: 'joggers' }
+            { id: 'l1', name: 'Modular Cargo Trousers', icon: '👖', defaultColor: '#323542', type: 'cargo' },
+            { id: 'l2', name: 'Distressed Selvedge Jeans', icon: '👖', defaultColor: '#1e3860', type: 'jeans' },
+            { id: 'l3', name: 'Cyberpunk Shorts', icon: '🩳', defaultColor: '#14131c', type: 'shorts' },
+            { id: 'l4', name: 'Flare Track Pants', icon: '👖', defaultColor: '#121118', type: 'track' },
+            { id: 'l5', name: 'Utility Joggers', icon: '👖', defaultColor: '#3e4233', type: 'joggers' }
         ],
         feet: [
             { id: 'f1', name: 'Quantum Chunky Sneakers', icon: '👟', defaultColor: '#ff007f', type: 'sneakers' },
-            { id: 'f2', name: 'High-Contrast Combat Boots', icon: '🥾', defaultColor: '#22222b', type: 'combat' },
+            { id: 'f2', name: 'High-Contrast Combat Boots', icon: '🥾', defaultColor: '#1b1a20', type: 'combat' },
             { id: 'f3', name: 'High-Top Canvas Kicks', icon: '👟', defaultColor: '#00f0ff', type: 'canvas' },
-            { id: 'f4', name: 'Leather Chelsea Boots', icon: '👞', defaultColor: '#4a2e1b', type: 'chelsea' },
+            { id: 'f4', name: 'Leather Chelsea Boots', icon: '👞', defaultColor: '#3a2212', type: 'chelsea' },
             { id: 'f5', name: 'Futuristic Cyber Slides', icon: '🩴', defaultColor: '#ff5e00', type: 'slides' }
         ]
     };
@@ -103,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0x0a0612, 0.09);
+    scene.fog = new THREE.FogExp2(0x0a0612, 0.07);
 
     const camera = new THREE.PerspectiveCamera(40, container.clientWidth / container.clientHeight, 0.1, 100);
     camera.position.set(0, 1.25, 3.8);
@@ -124,24 +126,24 @@ document.addEventListener('DOMContentLoaded', () => {
         controls.enableDamping = true;
         controls.dampingFactor = 0.05;
         controls.target.set(0, 1.1, 0);
-        controls.minDistance = 1.8;
+        controls.minDistance = 1.6;
         controls.maxDistance = 5.5;
-        controls.maxPolarAngle = Math.PI / 2 + 0.05; // Do not go below floor
+        controls.maxPolarAngle = Math.PI / 2 + 0.04;
         controls.autoRotate = false;
         controls.autoRotateSpeed = 1.2;
     }
 
     // -------------------------------------------------------------
-    // 4. STUDIO LIGHTING & STAGE ENVIRONMENT
+    // 4. STUDIO LIGHTING & ENVIRONMENT
     // -------------------------------------------------------------
     const studioLightsGroup = new THREE.Group();
     scene.add(studioLightsGroup);
 
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+    const ambientLight = new THREE.AmbientLight(0xffecd6, 0.85);
     studioLightsGroup.add(ambientLight);
 
-    const keyLight = new THREE.DirectionalLight(0xfff2e0, 1.4);
-    keyLight.position.set(2.5, 4.5, 3.0);
+    const keyLight = new THREE.DirectionalLight(0xfff5e6, 1.5);
+    keyLight.position.set(2.5, 4.5, 3.2);
     keyLight.castShadow = true;
     keyLight.shadow.mapSize.width = 2048;
     keyLight.shadow.mapSize.height = 2048;
@@ -152,23 +154,23 @@ document.addEventListener('DOMContentLoaded', () => {
     fillLight.position.set(-3.0, 2.5, 2.0);
     studioLightsGroup.add(fillLight);
 
-    const rimLight1 = new THREE.SpotLight(0x00f0ff, 2.2, 10, Math.PI / 4, 0.5);
+    const rimLight1 = new THREE.SpotLight(0xffc700, 2.2, 12, Math.PI / 4, 0.5);
     rimLight1.position.set(-2.2, 3.2, -2.8);
     rimLight1.target.position.set(0, 1.2, 0);
     studioLightsGroup.add(rimLight1);
     studioLightsGroup.add(rimLight1.target);
 
-    const rimLight2 = new THREE.SpotLight(0xff007f, 2.2, 10, Math.PI / 4, 0.5);
+    const rimLight2 = new THREE.SpotLight(0xff007f, 2.2, 12, Math.PI / 4, 0.5);
     rimLight2.position.set(2.2, 3.2, -2.8);
     rimLight2.target.position.set(0, 1.2, 0);
     studioLightsGroup.add(rimLight2);
     studioLightsGroup.add(rimLight2.target);
 
-    // Runway Platform / Studio Floor
+    // Studio Stage Floor
     const floorGeo = new THREE.CylinderGeometry(1.65, 1.75, 0.08, 64);
     const floorMat = new THREE.MeshStandardMaterial({
         color: 0x140d24,
-        roughness: 0.25,
+        roughness: 0.28,
         metalness: 0.65
     });
     const floor = new THREE.Mesh(floorGeo, floorMat);
@@ -176,34 +178,30 @@ document.addEventListener('DOMContentLoaded', () => {
     floor.receiveShadow = true;
     scene.add(floor);
 
-    // Runway Outer Glow Ring
+    // Glowing Stage Rim
     const ringGeo = new THREE.RingGeometry(1.72, 1.76, 64);
-    const ringMat = new THREE.MeshBasicMaterial({
-        color: 0x00f0ff,
-        side: THREE.DoubleSide
-    });
+    const ringMat = new THREE.MeshBasicMaterial({ color: 0xffc700, side: THREE.DoubleSide });
     const ring = new THREE.Mesh(ringGeo, ringMat);
     ring.rotation.x = Math.PI / 2;
     ring.position.y = 0.002;
     scene.add(ring);
 
-    // Lighting Modes
     function setLightingMode(mode) {
         if (mode === 'atelier') {
             ambientLight.color.setHex(0xffecd6);
-            ambientLight.intensity = 0.8;
+            ambientLight.intensity = 0.85;
             keyLight.color.setHex(0xfff5e6);
             keyLight.intensity = 1.5;
             fillLight.color.setHex(0xc299ff);
-            fillLight.intensity = 0.7;
+            fillLight.intensity = 0.75;
             rimLight1.color.setHex(0xffc700);
-            rimLight2.color.setHex(0xff99bb);
+            rimLight2.color.setHex(0xff007f);
             ringMat.color.setHex(0xffc700);
         } else if (mode === 'cyber') {
             ambientLight.color.setHex(0x140d24);
             ambientLight.intensity = 0.5;
             keyLight.color.setHex(0x00f0ff);
-            keyLight.intensity = 1.3;
+            keyLight.intensity = 1.4;
             fillLight.color.setHex(0x7928ca);
             fillLight.intensity = 1.2;
             rimLight1.color.setHex(0x00f0ff);
@@ -211,13 +209,13 @@ document.addEventListener('DOMContentLoaded', () => {
             ringMat.color.setHex(0x00f0ff);
         } else if (mode === 'editorial') {
             ambientLight.color.setHex(0xffffff);
-            ambientLight.intensity = 0.9;
+            ambientLight.intensity = 0.95;
             keyLight.color.setHex(0xffffff);
             keyLight.intensity = 1.6;
-            fillLight.color.setHex(0xcccccc);
-            fillLight.intensity = 0.6;
+            fillLight.color.setHex(0xd0d0d8);
+            fillLight.intensity = 0.65;
             rimLight1.color.setHex(0xffffff);
-            rimLight2.color.setHex(0xffffff);
+            rimLight2.color.setHex(0xaaaaaa);
             ringMat.color.setHex(0xffffff);
         }
     }
@@ -231,55 +229,86 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // -------------------------------------------------------------
-    // 5. PBR MATERIALS & ANATOMICAL MANNEQUIN SCULPTING
+    // 5. PBR MATERIALS & HUMAN ANATOMY SCULPTING
     // -------------------------------------------------------------
     const mannequinRoot = new THREE.Group();
     scene.add(mannequinRoot);
 
-    // Realistic PBR Skin Material
+    // Realistic PBR Skin Material with clearcoat sheen
     const skinMaterial = new THREE.MeshPhysicalMaterial({
         color: new THREE.Color(currentSkinTone),
-        roughness: 0.38,
+        roughness: 0.44,
         metalness: 0.05,
-        clearcoat: 0.22,
-        clearcoatRoughness: 0.32,
-        reflectivity: 0.4
+        clearcoat: 0.25,
+        clearcoatRoughness: 0.35,
+        reflectivity: 0.45
     });
 
-    // Undergarment base material (sleek minimalist bodysuit)
+    // Anatomical facial feature materials
+    const lipsMaterial = new THREE.MeshStandardMaterial({
+        color: 0xba6468,
+        roughness: 0.38,
+        metalness: 0.05
+    });
+
+    const eyeWhiteMaterial = new THREE.MeshStandardMaterial({
+        color: 0xf5f6fa,
+        roughness: 0.2,
+        metalness: 0.02
+    });
+
+    const eyeIrisMaterial = new THREE.MeshStandardMaterial({
+        color: 0x24160d,
+        roughness: 0.15,
+        metalness: 0.1
+    });
+
+    const eyePupilMaterial = new THREE.MeshBasicMaterial({
+        color: 0x050404
+    });
+
+    // High-specular cornea reflection
+    const eyeCorneaMaterial = new THREE.MeshPhysicalMaterial({
+        color: 0xffffff,
+        transparent: true,
+        opacity: 0.4,
+        roughness: 0.05,
+        clearcoat: 1.0,
+        clearcoatRoughness: 0.05
+    });
+
+    // Base Bodysuit Material
     const baseUnderwearMat = new THREE.MeshStandardMaterial({
-        color: 0x181324,
-        roughness: 0.6,
+        color: 0x120e1a,
+        roughness: 0.55,
         metalness: 0.2
     });
 
     // Hair Material
     const hairMaterial = new THREE.MeshStandardMaterial({
         color: new THREE.Color(currentHairColor),
-        roughness: 0.55,
-        metalness: 0.15
+        roughness: 0.45,
+        metalness: 0.22
     });
 
-    // Sub-groups for anatomical parts
+    // Body groups
     const headGroup = new THREE.Group();
-    headGroup.userData = { region: 'head', name: 'Head & Face' };
+    headGroup.userData = { region: 'head' };
     const torsoGroup = new THREE.Group();
-    torsoGroup.userData = { region: 'torso', name: 'Torso & Arms' };
+    torsoGroup.userData = { region: 'torso' };
     const legsGroup = new THREE.Group();
-    legsGroup.userData = { region: 'legs', name: 'Legs & Waist' };
+    legsGroup.userData = { region: 'legs' };
     const feetGroup = new THREE.Group();
-    feetGroup.userData = { region: 'feet', name: 'Feet & Shoes' };
+    feetGroup.userData = { region: 'feet' };
 
     mannequinRoot.add(headGroup);
     mannequinRoot.add(torsoGroup);
     mannequinRoot.add(legsGroup);
     mannequinRoot.add(feetGroup);
 
-    // Interactive clickable meshes list for Raycaster
     const interactiveMeshes = [];
 
-    // Helper: Register anatomical mesh
-    function createBodyPartMesh(geo, mat, parent, regionTag) {
+    function addPartMesh(geo, mat, parent, regionTag) {
         const mesh = new THREE.Mesh(geo, mat);
         mesh.castShadow = true;
         mesh.receiveShadow = true;
@@ -289,122 +318,289 @@ document.addEventListener('DOMContentLoaded', () => {
         return mesh;
     }
 
-    // --- A. HEAD & NECK ---
-    // Sculpted Head & Chin
-    const headCranium = createBodyPartMesh(new THREE.SphereGeometry(0.12, 32, 28), skinMaterial, headGroup, 'head');
-    headCranium.position.set(0, 1.84, 0);
-    headCranium.scale.set(1.0, 1.25, 1.08);
+    // --- A. HEAD & HUMAN FACE SCULPTING ---
+    // Oval Cranium
+    const headCranium = addPartMesh(new THREE.SphereGeometry(0.125, 32, 28), skinMaterial, headGroup, 'head');
+    headCranium.position.set(0, 1.83, 0);
+    headCranium.scale.set(0.96, 1.16, 1.02);
 
-    // Jaw & Chin Taper
-    const jawGeo = new THREE.ConeGeometry(0.105, 0.18, 24);
-    const headJaw = createBodyPartMesh(jawGeo, skinMaterial, headGroup, 'head');
-    headJaw.position.set(0, 1.74, 0.02);
-    headJaw.rotation.x = Math.PI;
-    headJaw.scale.set(1.0, 1.0, 0.85);
+    // Anatomical Jaw & Chin
+    const jawMesh = addPartMesh(new THREE.CylinderGeometry(0.108, 0.062, 0.13, 24), skinMaterial, headGroup, 'head');
+    jawMesh.position.set(0, 1.73, 0.02);
+    jawMesh.scale.set(0.92, 1.0, 0.90);
 
-    // Elegant Neck
-    const neckGeo = new THREE.CylinderGeometry(0.055, 0.068, 0.15, 24);
-    const neckMesh = createBodyPartMesh(neckGeo, skinMaterial, headGroup, 'head');
-    neckMesh.position.set(0, 1.66, -0.01);
+    // Chin Apex
+    const chinTip = new THREE.Mesh(new THREE.SphereGeometry(0.024, 16, 14), skinMaterial);
+    chinTip.position.set(0, 1.68, 0.06);
+    chinTip.scale.set(1.0, 0.8, 1.1);
+    headGroup.add(chinTip);
 
-    // Chiseled Nose Bridge
-    const noseGeo = new THREE.ConeGeometry(0.016, 0.05, 12);
-    const noseMesh = new THREE.Mesh(noseGeo, skinMaterial);
-    noseMesh.position.set(0, 1.82, 0.13);
-    noseMesh.rotation.x = -Math.PI / 10;
-    headGroup.add(noseMesh);
+    // Refined Neck with Collarbone Transition
+    const neckMesh = addPartMesh(new THREE.CylinderGeometry(0.054, 0.070, 0.16, 24), skinMaterial, headGroup, 'head');
+    neckMesh.position.set(0, 1.64, -0.01);
 
-    // --- B. TORSO & SHOULDERS ---
-    // Clavicle & Chest
-    const chestGeo = new THREE.CylinderGeometry(0.19, 0.165, 0.28, 32);
-    const chestMesh = createBodyPartMesh(chestGeo, skinMaterial, torsoGroup, 'torso');
-    chestMesh.position.set(0, 1.45, 0);
-    chestMesh.scale.set(1.15, 1.0, 0.75);
+    // 1. Nose Bridge, Cartilaginous Tip & Nostrils
+    const noseBridge = new THREE.Mesh(new THREE.CylinderGeometry(0.008, 0.014, 0.065, 16), skinMaterial);
+    noseBridge.position.set(0, 1.795, 0.135);
+    noseBridge.rotation.x = -0.22;
+    headGroup.add(noseBridge);
+
+    const noseTip = new THREE.Mesh(new THREE.SphereGeometry(0.012, 16, 14), skinMaterial);
+    noseTip.position.set(0, 1.765, 0.154);
+    noseTip.scale.set(1.0, 0.85, 1.15);
+    headGroup.add(noseTip);
+
+    const nostrilL = new THREE.Mesh(new THREE.SphereGeometry(0.007, 12, 10), skinMaterial);
+    nostrilL.position.set(-0.014, 1.762, 0.144);
+    headGroup.add(nostrilL);
+
+    const nostrilR = new THREE.Mesh(new THREE.SphereGeometry(0.007, 12, 10), skinMaterial);
+    nostrilR.position.set(0.014, 1.762, 0.144);
+    headGroup.add(nostrilR);
+
+    // 2. Sculpted Almond Eyes (Properly positioned on facial plane)
+    function buildAlmondEye(isLeft) {
+        const eyeGroup = new THREE.Group();
+        const sideMult = isLeft ? -1 : 1;
+
+        // White Sclera
+        const sclera = new THREE.Mesh(new THREE.SphereGeometry(0.015, 18, 14), eyeWhiteMaterial);
+        sclera.scale.set(1.35, 0.85, 0.7);
+        eyeGroup.add(sclera);
+
+        // Iris
+        const iris = new THREE.Mesh(new THREE.SphereGeometry(0.0085, 16, 14), eyeIrisMaterial);
+        iris.position.set(0, 0, 0.007);
+        eyeGroup.add(iris);
+
+        // Pupil
+        const pupil = new THREE.Mesh(new THREE.SphereGeometry(0.0042, 12, 12), eyePupilMaterial);
+        pupil.position.set(0, 0, 0.011);
+        eyeGroup.add(pupil);
+
+        // Cornea Specular Gloss
+        const cornea = new THREE.Mesh(new THREE.SphereGeometry(0.0155, 16, 14), eyeCorneaMaterial);
+        cornea.scale.set(1.35, 0.85, 0.7);
+        eyeGroup.add(cornea);
+
+        // Upper Eyelid / Eyeliner Arc
+        const lidGeo = new THREE.TorusGeometry(0.018, 0.0028, 8, 16, Math.PI);
+        const lid = new THREE.Mesh(lidGeo, new THREE.MeshBasicMaterial({ color: 0x1a0f0a }));
+        lid.position.set(0, 0.004, 0.008);
+        lid.rotation.x = Math.PI / 4;
+        eyeGroup.add(lid);
+
+        eyeGroup.position.set(0.046 * sideMult, 1.825, 0.126);
+        headGroup.add(eyeGroup);
+        return eyeGroup;
+    }
+
+    const eyeLeftGroup = buildAlmondEye(true);
+    const eyeRightGroup = buildAlmondEye(false);
+
+    // 3. Eyebrow Arcs
+    const browGeo = new THREE.TorusGeometry(0.034, 0.0038, 10, 18, Math.PI / 2.1);
+    const browL = new THREE.Mesh(browGeo, hairMaterial);
+    browL.position.set(-0.046, 1.855, 0.126);
+    browL.rotation.z = Math.PI * 0.94;
+    browL.rotation.x = 0.15;
+    headGroup.add(browL);
+
+    const browR = new THREE.Mesh(browGeo, hairMaterial);
+    browR.position.set(0.046, 1.855, 0.126);
+    browR.rotation.z = Math.PI * 0.06;
+    browR.rotation.x = 0.15;
+    headGroup.add(browR);
+
+    // 4. Sculpted Lips with Cupid's Bow
+    const upperLipL = new THREE.Mesh(new THREE.CylinderGeometry(0.006, 0.006, 0.019, 12), lipsMaterial);
+    upperLipL.position.set(-0.010, 1.740, 0.138);
+    upperLipL.rotation.z = Math.PI / 2 + 0.12;
+    headGroup.add(upperLipL);
+
+    const upperLipR = new THREE.Mesh(new THREE.CylinderGeometry(0.006, 0.006, 0.019, 12), lipsMaterial);
+    upperLipR.position.set(0.010, 1.740, 0.138);
+    upperLipR.rotation.z = Math.PI / 2 - 0.12;
+    headGroup.add(upperLipR);
+
+    const lowerLip = new THREE.Mesh(new THREE.CylinderGeometry(0.008, 0.008, 0.034, 14), lipsMaterial);
+    lowerLip.position.set(0, 1.726, 0.135);
+    lowerLip.rotation.z = Math.PI / 2;
+    headGroup.add(lowerLip);
+
+    // 5. Anatomical Ears
+    const earGeo = new THREE.SphereGeometry(0.024, 14, 12);
+    const earL = new THREE.Mesh(earGeo, skinMaterial);
+    earL.position.set(-0.122, 1.80, -0.01);
+    earL.scale.set(0.45, 1.4, 0.85);
+    headGroup.add(earL);
+
+    const earR = new THREE.Mesh(earGeo, skinMaterial);
+    earR.position.set(0.122, 1.80, -0.01);
+    earR.scale.set(0.45, 1.4, 0.85);
+    headGroup.add(earR);
+
+    // --- B. TORSO & ANATOMICAL LIMBS ---
+    const chestMesh = addPartMesh(new THREE.CylinderGeometry(0.19, 0.165, 0.28, 32), skinMaterial, torsoGroup, 'torso');
+    chestMesh.position.set(0, 1.44, 0);
+    chestMesh.scale.set(1.12, 1.0, 0.74);
+
+    // Clavicle Collarbones
+    const clavicleGeo = new THREE.TorusGeometry(0.14, 0.007, 10, 24, Math.PI / 2);
+    const clavicleMesh = new THREE.Mesh(clavicleGeo, skinMaterial);
+    clavicleMesh.position.set(0, 1.55, 0.04);
+    clavicleMesh.rotation.x = Math.PI / 2;
+    clavicleMesh.rotation.z = Math.PI / 4;
+    torsoGroup.add(clavicleMesh);
 
     // Waist Taper
-    const waistGeo = new THREE.CylinderGeometry(0.15, 0.16, 0.22, 32);
-    const waistMesh = createBodyPartMesh(waistGeo, skinMaterial, torsoGroup, 'torso');
+    const waistMesh = addPartMesh(new THREE.CylinderGeometry(0.142, 0.158, 0.22, 32), skinMaterial, torsoGroup, 'torso');
     waistMesh.position.set(0, 1.22, 0);
-    waistMesh.scale.set(1.0, 1.0, 0.72);
+    waistMesh.scale.set(0.96, 1.0, 0.68);
 
     // Pelvis / Hips
-    const hipsGeo = new THREE.CylinderGeometry(0.165, 0.185, 0.20, 32);
-    const hipsMesh = createBodyPartMesh(hipsGeo, baseUnderwearMat, torsoGroup, 'torso');
+    const hipsMesh = addPartMesh(new THREE.CylinderGeometry(0.165, 0.185, 0.20, 32), baseUnderwearMat, torsoGroup, 'torso');
     hipsMesh.position.set(0, 1.04, 0);
-    hipsMesh.scale.set(1.12, 1.0, 0.75);
+    hipsMesh.scale.set(1.18, 1.0, 0.76);
 
-    // Shoulders
-    const shoulderL = createBodyPartMesh(new THREE.SphereGeometry(0.065, 20, 16), skinMaterial, torsoGroup, 'torso');
-    shoulderL.position.set(-0.25, 1.54, 0);
-    const shoulderR = createBodyPartMesh(new THREE.SphereGeometry(0.065, 20, 16), skinMaterial, torsoGroup, 'torso');
-    shoulderR.position.set(0.25, 1.54, 0);
+    // Sculpted Shoulders
+    const shoulderL = addPartMesh(new THREE.SphereGeometry(0.062, 20, 16), skinMaterial, torsoGroup, 'torso');
+    shoulderL.position.set(-0.24, 1.52, 0);
+    const shoulderR = addPartMesh(new THREE.SphereGeometry(0.062, 20, 16), skinMaterial, torsoGroup, 'torso');
+    shoulderR.position.set(0.24, 1.52, 0);
 
-    // Upper Arms (Biceps)
-    const upperArmGeo = new THREE.CylinderGeometry(0.045, 0.04, 0.28, 20);
-    const armLeftUpper = createBodyPartMesh(upperArmGeo, skinMaterial, torsoGroup, 'torso');
-    armLeftUpper.position.set(-0.28, 1.36, 0);
-    armLeftUpper.rotation.z = -0.12;
+    // Upper Arms (Naturally resting by side in runway poise)
+    const upperArmGeo = new THREE.CylinderGeometry(0.042, 0.038, 0.26, 20);
+    const armLeftUpper = addPartMesh(upperArmGeo, skinMaterial, torsoGroup, 'torso');
+    armLeftUpper.position.set(-0.27, 1.36, 0);
+    armLeftUpper.rotation.z = -0.14;
+    armLeftUpper.rotation.x = 0.06;
 
-    const armRightUpper = createBodyPartMesh(upperArmGeo, skinMaterial, torsoGroup, 'torso');
-    armRightUpper.position.set(0.28, 1.36, 0);
-    armRightUpper.rotation.z = 0.12;
+    const armRightUpper = addPartMesh(upperArmGeo, skinMaterial, torsoGroup, 'torso');
+    armRightUpper.position.set(0.27, 1.36, 0);
+    armRightUpper.rotation.z = 0.14;
+    armRightUpper.rotation.x = 0.06;
 
-    // Forearms
-    const forearmGeo = new THREE.CylinderGeometry(0.038, 0.032, 0.28, 20);
-    const forearmLeft = createBodyPartMesh(forearmGeo, skinMaterial, torsoGroup, 'torso');
-    forearmLeft.position.set(-0.31, 1.10, 0.04);
+    // Elbow Joints
+    const elbowL = addPartMesh(new THREE.SphereGeometry(0.035, 16, 14), skinMaterial, torsoGroup, 'torso');
+    elbowL.position.set(-0.305, 1.22, 0.015);
+    const elbowR = addPartMesh(new THREE.SphereGeometry(0.035, 16, 14), skinMaterial, torsoGroup, 'torso');
+    elbowR.position.set(0.305, 1.22, 0.015);
+
+    // Forearms (Tapering naturally toward wrist)
+    const forearmGeo = new THREE.CylinderGeometry(0.035, 0.026, 0.25, 20);
+    const forearmLeft = addPartMesh(forearmGeo, skinMaterial, torsoGroup, 'torso');
+    forearmLeft.position.set(-0.312, 1.07, 0.045);
     forearmLeft.rotation.z = -0.06;
-    forearmLeft.rotation.x = 0.15;
+    forearmLeft.rotation.x = 0.18;
 
-    const forearmRight = createBodyPartMesh(forearmGeo, skinMaterial, torsoGroup, 'torso');
-    forearmRight.position.set(0.31, 1.10, 0.04);
+    const forearmRight = addPartMesh(forearmGeo, skinMaterial, torsoGroup, 'torso');
+    forearmRight.position.set(0.312, 1.07, 0.045);
     forearmRight.rotation.z = 0.06;
-    forearmRight.rotation.x = 0.15;
+    forearmRight.rotation.x = 0.18;
 
-    // Stylized Hands
-    const handGeo = new THREE.BoxGeometry(0.04, 0.10, 0.022);
-    const handLeft = createBodyPartMesh(handGeo, skinMaterial, torsoGroup, 'torso');
-    handLeft.position.set(-0.32, 0.92, 0.07);
-    const handRight = createBodyPartMesh(handGeo, skinMaterial, torsoGroup, 'torso');
-    handRight.position.set(0.32, 0.92, 0.07);
+    // --- ANATOMICAL POSED RUNWAY HANDS (Sorted, Natural & Refined) ---
+    function buildSculptedHand(isLeft) {
+        const handRoot = new THREE.Group();
+        const sideMult = isLeft ? -1 : 1;
 
-    // --- C. LEGS ---
-    // Thighs
-    const thighGeo = new THREE.CylinderGeometry(0.082, 0.062, 0.44, 24);
-    const thighLeft = createBodyPartMesh(thighGeo, skinMaterial, legsGroup, 'legs');
+        // Slender Wrist Transition
+        const wristMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.024, 0.020, 0.04, 14), skinMaterial);
+        wristMesh.position.set(0, 0.02, 0);
+        handRoot.add(wristMesh);
+
+        // Palm Base (Anatomically tapered volume with thenar pad)
+        const palmMesh = new THREE.Mesh(new THREE.BoxGeometry(0.036, 0.052, 0.018), skinMaterial);
+        palmMesh.position.set(0, -0.016, 0);
+        palmMesh.castShadow = true;
+        handRoot.add(palmMesh);
+
+        // Thenar Muscle Mound (Base of thumb)
+        const thenarMound = new THREE.Mesh(new THREE.SphereGeometry(0.012, 12, 10), skinMaterial);
+        thenarMound.position.set(0.018 * sideMult, -0.008, 0.006);
+        thenarMound.scale.set(1.2, 1.0, 0.8);
+        handRoot.add(thenarMound);
+
+        // Natural Posed Thumb (Angling inward toward index finger)
+        const thumbProx = new THREE.Mesh(new THREE.CylinderGeometry(0.0065, 0.0055, 0.024, 10), skinMaterial);
+        thumbProx.position.set(0.024 * sideMult, -0.014, 0.012);
+        thumbProx.rotation.z = -0.45 * sideMult;
+        thumbProx.rotation.x = 0.35;
+        handRoot.add(thumbProx);
+
+        const thumbDist = new THREE.Mesh(new THREE.CylinderGeometry(0.0052, 0.0040, 0.018, 10), skinMaterial);
+        thumbDist.position.set(0.032 * sideMult, -0.028, 0.018);
+        thumbDist.rotation.z = -0.25 * sideMult;
+        thumbDist.rotation.x = 0.50;
+        handRoot.add(thumbDist);
+
+        // 4 Cascaded Runway Fingers (Index, Middle, Ring, Pinky - gently curved)
+        const fingerData = [
+            { len: 0.042, xOff: -0.012, curl: 0.18 }, // Index
+            { len: 0.046, xOff: -0.004, curl: 0.16 }, // Middle (longest)
+            { len: 0.040, xOff: 0.004, curl: 0.22 },  // Ring
+            { len: 0.033, xOff: 0.011, curl: 0.28 }   // Pinky (most curled)
+        ];
+
+        fingerData.forEach(f => {
+            const posX = f.xOff * sideMult;
+            // Proximal phalanx
+            const prox = new THREE.Mesh(new THREE.CylinderGeometry(0.0048, 0.0040, f.len * 0.6, 10), skinMaterial);
+            prox.position.set(posX, -0.048, 0.004);
+            prox.rotation.x = f.curl;
+            handRoot.add(prox);
+
+            // Distal phalanx (curling softly inward toward the thigh)
+            const dist = new THREE.Mesh(new THREE.CylinderGeometry(0.0038, 0.0028, f.len * 0.45, 10), skinMaterial);
+            dist.position.set(posX, -0.064, 0.012);
+            dist.rotation.x = f.curl + 0.25;
+            handRoot.add(dist);
+        });
+
+        // Position hand gracefully on forearm
+        handRoot.position.set(0.316 * sideMult, 0.91, 0.08);
+        handRoot.rotation.y = 0.25 * sideMult;
+        handRoot.rotation.z = -0.06 * sideMult;
+        torsoGroup.add(handRoot);
+        return handRoot;
+    }
+
+    const handLeftMesh = buildSculptedHand(true);
+    const handRightMesh = buildSculptedHand(false);
+
+    // --- C. SCULPTED ATHLETIC LEGS ---
+    const thighGeo = new THREE.CylinderGeometry(0.084, 0.062, 0.44, 24);
+    const thighLeft = addPartMesh(thighGeo, skinMaterial, legsGroup, 'legs');
     thighLeft.position.set(-0.11, 0.74, 0);
-    thighLeft.rotation.z = -0.02;
 
-    const thighRight = createBodyPartMesh(thighGeo, skinMaterial, legsGroup, 'legs');
+    const thighRight = addPartMesh(thighGeo, skinMaterial, legsGroup, 'legs');
     thighRight.position.set(0.11, 0.74, 0);
-    thighRight.rotation.z = 0.02;
 
-    // Knees
-    const kneeL = createBodyPartMesh(new THREE.SphereGeometry(0.055, 18, 14), skinMaterial, legsGroup, 'legs');
-    kneeL.position.set(-0.11, 0.50, 0.01);
-    const kneeR = createBodyPartMesh(new THREE.SphereGeometry(0.055, 18, 14), skinMaterial, legsGroup, 'legs');
-    kneeR.position.set(0.11, 0.50, 0.01);
+    // Sculpted Kneecaps
+    const kneeL = addPartMesh(new THREE.SphereGeometry(0.052, 18, 14), skinMaterial, legsGroup, 'legs');
+    kneeL.position.set(-0.11, 0.50, 0.012);
+    const kneeR = addPartMesh(new THREE.SphereGeometry(0.052, 18, 14), skinMaterial, legsGroup, 'legs');
+    kneeR.position.set(0.11, 0.50, 0.012);
 
     // Calves & Shins
-    const calfGeo = new THREE.CylinderGeometry(0.058, 0.042, 0.44, 24);
-    const calfLeft = createBodyPartMesh(calfGeo, skinMaterial, legsGroup, 'legs');
+    const calfGeo = new THREE.CylinderGeometry(0.058, 0.038, 0.44, 24);
+    const calfLeft = addPartMesh(calfGeo, skinMaterial, legsGroup, 'legs');
     calfLeft.position.set(-0.11, 0.27, 0);
-    const calfRight = createBodyPartMesh(calfGeo, skinMaterial, legsGroup, 'legs');
+    const calfRight = addPartMesh(calfGeo, skinMaterial, legsGroup, 'legs');
     calfRight.position.set(0.11, 0.27, 0);
 
-    // --- D. FEET ---
-    const footGeo = new THREE.BoxGeometry(0.07, 0.05, 0.17);
-    const footLeft = createBodyPartMesh(footGeo, skinMaterial, feetGroup, 'feet');
+    // --- D. ANATOMICAL FEET ---
+    const footGeo = new THREE.BoxGeometry(0.068, 0.048, 0.17);
+    const footLeft = addPartMesh(footGeo, skinMaterial, feetGroup, 'feet');
     footLeft.position.set(-0.11, 0.03, 0.03);
-    const footRight = createBodyPartMesh(footGeo, skinMaterial, feetGroup, 'feet');
+    const footRight = addPartMesh(footGeo, skinMaterial, feetGroup, 'feet');
     footRight.position.set(0.11, 0.03, 0.03);
 
     // -------------------------------------------------------------
-    // 6. PROCEDURAL 3D HAIR GEOMETRIES
+    // 6. PROCEDURAL 3D HAIR GEOMETRIES (REALISTIC & GENDER-ALIGNED)
     // -------------------------------------------------------------
     const hairContainer = new THREE.Group();
     headGroup.add(hairContainer);
-
     let activeHairMesh = null;
 
     function build3DHair(styleKey) {
@@ -413,63 +609,104 @@ document.addEventListener('DOMContentLoaded', () => {
             activeHairMesh = null;
         }
 
+        if (styleKey === 'bald') return;
+
         const hairGroup = new THREE.Group();
 
-        if (styleKey === 'side-part') {
-            // Asymmetrical sweeping editorial wave
-            const crown = new THREE.Mesh(new THREE.SphereGeometry(0.135, 24, 20), hairMaterial);
-            crown.position.set(0, 1.88, -0.01);
-            crown.scale.set(1.04, 1.1, 1.08);
-            hairGroup.add(crown);
+        // 1. FEMALE DEFAULT: Editorial Side-Part & Glamour Waves
+        if (styleKey === 'side-part' || styleKey === 'long-waves') {
+            // Scalp skull cap fitting securely
+            const cap = new THREE.Mesh(new THREE.SphereGeometry(0.134, 28, 24), hairMaterial);
+            cap.position.set(0, 1.86, -0.01);
+            cap.scale.set(1.02, 1.10, 1.05);
+            hairGroup.add(cap);
 
-            const sweep = new THREE.Mesh(new THREE.TorusGeometry(0.12, 0.035, 14, 24, Math.PI), hairMaterial);
-            sweep.position.set(0.04, 1.91, 0.05);
-            sweep.rotation.z = -Math.PI / 4;
-            hairGroup.add(sweep);
-        } else if (styleKey === 'long-waves') {
-            // Crown
-            const crown = new THREE.Mesh(new THREE.SphereGeometry(0.138, 24, 20), hairMaterial);
-            crown.position.set(0, 1.88, -0.01);
-            hairGroup.add(crown);
+            // Sweeping side-part fringe across brow
+            const sideSweep = new THREE.Mesh(new THREE.TorusGeometry(0.11, 0.026, 16, 24, Math.PI * 0.75), hairMaterial);
+            sideSweep.position.set(0.03, 1.88, 0.06);
+            sideSweep.rotation.z = -0.55;
+            sideSweep.rotation.x = 0.25;
+            hairGroup.add(sideSweep);
 
-            // Flowing shoulder drapes (Left & Right)
-            const strandLeft = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.02, 0.48, 16), hairMaterial);
-            strandLeft.position.set(-0.13, 1.62, 0.03);
-            strandLeft.rotation.z = -0.15;
-            hairGroup.add(strandLeft);
+            // Left cascading wavy strand
+            const waveL = new THREE.Mesh(new THREE.CylinderGeometry(0.038, 0.022, 0.48, 16), hairMaterial);
+            waveL.position.set(-0.13, 1.62, 0.03);
+            waveL.rotation.z = -0.16;
+            waveL.rotation.x = 0.08;
+            hairGroup.add(waveL);
 
-            const strandRight = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.02, 0.48, 16), hairMaterial);
-            strandRight.position.set(0.13, 1.62, 0.03);
-            strandRight.rotation.z = 0.15;
-            hairGroup.add(strandRight);
+            // Right cascading wavy strand
+            const waveR = new THREE.Mesh(new THREE.CylinderGeometry(0.038, 0.022, 0.48, 16), hairMaterial);
+            waveR.position.set(0.13, 1.62, 0.03);
+            waveR.rotation.z = 0.16;
+            waveR.rotation.x = 0.08;
+            hairGroup.add(waveR);
 
-            // Back Cascade
-            const backCascade = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.08, 0.52, 16), hairMaterial);
-            backCascade.position.set(0, 1.62, -0.11);
-            hairGroup.add(backCascade);
-        } else if (styleKey === 'curly-puff') {
-            // High textured afro puff
-            const puffCrown = new THREE.Mesh(new THREE.SphereGeometry(0.17, 24, 20), hairMaterial);
-            puffCrown.position.set(0, 1.94, -0.02);
+            // Back flowing drape
+            const backDrape = new THREE.Mesh(new THREE.CylinderGeometry(0.125, 0.085, 0.52, 20), hairMaterial);
+            backDrape.position.set(0, 1.60, -0.09);
+            backDrape.scale.set(1.1, 1.0, 0.85);
+            hairGroup.add(backDrape);
+        }
+        // 2. MALE DEFAULT: Modern Textured Quiff / High-Fashion Crop
+        else if (styleKey === 'short-crop') {
+            // Tight salon taper fade around sides & back
+            const fadeSides = new THREE.Mesh(new THREE.SphereGeometry(0.130, 28, 24), hairMaterial);
+            fadeSides.position.set(0, 1.85, -0.01);
+            fadeSides.scale.set(1.02, 1.12, 1.03);
+            hairGroup.add(fadeSides);
+
+            // Volumetric textured quiff top
+            const quiffBase = new THREE.Mesh(new THREE.BoxGeometry(0.11, 0.045, 0.13), hairMaterial);
+            quiffBase.position.set(0, 1.95, 0.01);
+            quiffBase.rotation.x = 0.15;
+            hairGroup.add(quiffBase);
+
+            // Layered directional quiff strands
+            for (let i = 0; i < 5; i++) {
+                const strand = new THREE.Mesh(new THREE.ConeGeometry(0.020, 0.065, 8), hairMaterial);
+                const xOff = (-0.04 + (i * 0.02));
+                strand.position.set(xOff, 1.97, 0.03 + (Math.sin(i) * 0.01));
+                strand.rotation.x = 0.45;
+                strand.rotation.z = (i - 2) * 0.12;
+                hairGroup.add(strand);
+            }
+        }
+        // 3. NON-BINARY DEFAULT: Textured Afro High Puff with Metallic Band
+        else if (styleKey === 'curly-puff') {
+            // Tapered hairline
+            const baseHair = new THREE.Mesh(new THREE.SphereGeometry(0.132, 24, 20), hairMaterial);
+            baseHair.position.set(0, 1.86, 0);
+            hairGroup.add(baseHair);
+
+            // Metallic Gold Styling Cuff Ring
+            const cuffMat = new THREE.MeshStandardMaterial({ color: 0xffc700, metalness: 0.9, roughness: 0.2 });
+            const cuff = new THREE.Mesh(new THREE.TorusGeometry(0.09, 0.012, 14, 24), cuffMat);
+            cuff.position.set(0, 1.94, -0.02);
+            cuff.rotation.x = Math.PI / 2;
+            hairGroup.add(cuff);
+
+            // Volumetric High Puff Crown
+            const puffCrown = new THREE.Mesh(new THREE.SphereGeometry(0.165, 24, 20), hairMaterial);
+            puffCrown.position.set(0, 2.04, -0.02);
+            puffCrown.scale.set(1.15, 0.95, 1.15);
             hairGroup.add(puffCrown);
 
-            for (let i = 0; i < 6; i++) {
-                const miniPuff = new THREE.Mesh(new THREE.SphereGeometry(0.065, 14, 14), hairMaterial);
-                const angle = (i / 6) * Math.PI * 2;
-                miniPuff.position.set(Math.cos(angle) * 0.11, 1.96 + Math.sin(angle) * 0.04, Math.sin(angle) * 0.11);
-                hairGroup.add(miniPuff);
+            // Micro-curls
+            for (let i = 0; i < 8; i++) {
+                const miniCurl = new THREE.Mesh(new THREE.SphereGeometry(0.055, 12, 10), hairMaterial);
+                const angle = (i / 8) * Math.PI * 2;
+                miniCurl.position.set(Math.cos(angle) * 0.13, 2.05 + Math.sin(angle) * 0.03, Math.sin(angle) * 0.13);
+                hairGroup.add(miniCurl);
             }
-        } else if (styleKey === 'short-crop') {
-            const crop = new THREE.Mesh(new THREE.SphereGeometry(0.132, 24, 20), hairMaterial);
-            crop.position.set(0, 1.88, 0);
-            crop.scale.set(1.03, 1.15, 1.05);
-            hairGroup.add(crop);
-        } else if (styleKey === 'buzz-cut') {
-            const buzz = new THREE.Mesh(new THREE.SphereGeometry(0.125, 24, 20), hairMaterial);
-            buzz.position.set(0, 1.86, 0);
-            buzz.scale.set(1.01, 1.18, 1.03);
+        }
+        // 4. BUZZ CUT
+        else if (styleKey === 'buzz-cut') {
+            const buzz = new THREE.Mesh(new THREE.SphereGeometry(0.128, 28, 24), hairMaterial);
+            buzz.position.set(0, 1.84, 0);
+            buzz.scale.set(1.02, 1.15, 1.04);
             hairGroup.add(buzz);
-        } // 'bald' adds nothing
+        }
 
         hairContainer.add(hairGroup);
         activeHairMesh = hairGroup;
@@ -478,7 +715,7 @@ document.addEventListener('DOMContentLoaded', () => {
     build3DHair('side-part');
 
     // -------------------------------------------------------------
-    // 7. MODULAR 3D GARMENT MESHES & PROCEDURAL STYLING
+    // 7. GENUINE 3D APPAREL REPLICATION ENGINE
     // -------------------------------------------------------------
     const garmentsRoot = new THREE.Group();
     mannequinRoot.add(garmentsRoot);
@@ -487,29 +724,67 @@ document.addEventListener('DOMContentLoaded', () => {
     const garmentMaterials = { head: null, torso: null, legs: null, feet: null };
     const studsGroups = { head: null, torso: null, legs: null, feet: null };
 
-    // Canvas Texture generator for Custom Text on Garments
-    function createDecalTexture(text, textColor = '#ffffff', bgColor = null) {
+    // Canvas Texture Generator for Authentic Streetwear Graphics & Decals
+    function createGraphicTeeTexture(customText = '') {
         const canvas = document.createElement('canvas');
         canvas.width = 1024;
-        canvas.height = 512;
+        canvas.height = 1024;
         const ctx = canvas.getContext('2d');
 
-        if (bgColor) {
-            ctx.fillStyle = bgColor;
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-        } else {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-        }
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        if (text && text.trim().length > 0) {
-            ctx.font = 'bold 76px Outfit, sans-serif';
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            ctx.fillStyle = textColor;
-            ctx.letterSpacing = '6px';
-            ctx.shadowColor = 'rgba(0,0,0,0.8)';
-            ctx.shadowBlur = 12;
-            ctx.fillText(text.toUpperCase(), canvas.width / 2, canvas.height / 2);
+        // Streetwear Cyber Framing Border
+        ctx.strokeStyle = '#00f0ff';
+        ctx.lineWidth = 6;
+        ctx.strokeRect(160, 140, 704, 740);
+
+        // Top Header Pill
+        ctx.fillStyle = '#ff007f';
+        ctx.fillRect(160, 140, 704, 85);
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '900 36px "Outfit", sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('⚡ FRAYD STUDIO // ARCHIVE 2026', 512, 196);
+
+        // Main Dynamic Streetwear Typography
+        const displayMain = (customText && customText.trim().length > 0) ? customText.toUpperCase() : 'DECONSTRUCTED';
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '900 78px "Outfit", sans-serif';
+        ctx.fillText(displayMain, 512, 400);
+
+        ctx.fillStyle = '#00f0ff';
+        ctx.font = '800 48px "Outfit", sans-serif';
+        ctx.fillText('WEAR YOUR POINT OF VIEW', 512, 470);
+
+        // Editorial Accent Lines & Crosshairs
+        ctx.strokeStyle = '#ffffff';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(220, 520);
+        ctx.lineTo(804, 520);
+        ctx.stroke();
+
+        ctx.fillStyle = '#aaaaaa';
+        ctx.font = '700 24px monospace';
+        ctx.fillText('MILAN // TOKYO // NYC  [SPEC-2026]', 512, 560);
+
+        // Circular Seal Badge
+        ctx.strokeStyle = '#ffc700';
+        ctx.lineWidth = 4;
+        ctx.beginPath();
+        ctx.arc(512, 660, 68, 0, Math.PI * 2);
+        ctx.stroke();
+
+        ctx.fillStyle = '#ffc700';
+        ctx.font = 'bold 24px "Outfit", sans-serif';
+        ctx.fillText('LIMITED RUN', 512, 655);
+        ctx.fillText('01 OF 50', 512, 685);
+
+        // Barcode
+        ctx.fillStyle = '#ffffff';
+        for (let i = 0; i < 34; i++) {
+            const w = (i % 4 === 0) ? 8 : (i % 2 === 0 ? 4 : 2);
+            ctx.fillRect(240 + (i * 16), 770, w, 60);
         }
 
         const texture = new THREE.CanvasTexture(canvas);
@@ -517,14 +792,13 @@ document.addEventListener('DOMContentLoaded', () => {
         return texture;
     }
 
-    // Helper: Build 3D metallic studs along surface
     function createChromeStuds(coordsArray, parent) {
         const studsGroup = new THREE.Group();
         const studGeo = new THREE.SphereGeometry(0.012, 12, 10);
         const chromeMat = new THREE.MeshStandardMaterial({
-            color: 0xe0e8f0,
-            metalness: 0.95,
-            roughness: 0.12
+            color: 0xe8eef5,
+            metalness: 0.98,
+            roughness: 0.10
         });
 
         coordsArray.forEach(pos => {
@@ -538,9 +812,8 @@ document.addEventListener('DOMContentLoaded', () => {
         return studsGroup;
     }
 
-    // Builder Functions for each 3D Garment
+    // Build Authentic 3D Garments Matching Chosen Apparel
     function build3DGarmentMesh(region, item) {
-        // Clean existing garment in this region
         if (active3DGarments[region]) {
             garmentsRoot.remove(active3DGarments[region]);
             active3DGarments[region] = null;
@@ -556,12 +829,23 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         garmentMaterials[region] = mat;
 
-        // ------------------ HEADWEAR ------------------
+        // Gender proportion scaling factors
+        const isMale = (currentGender === 'male');
+        const chestWidthMult = isMale ? 1.25 : 1.0;
+        const shoulderSpread = isMale ? 0.30 : 0.24;
+
+        // =========================================================
+        // A. HEADWEAR REPLICATION
+        // =========================================================
         if (region === 'head') {
             if (item.type === 'snapback') {
-                const crown = new THREE.Mesh(new THREE.CylinderGeometry(0.125, 0.132, 0.09, 24), mat);
+                const crown = new THREE.Mesh(new THREE.CylinderGeometry(0.128, 0.134, 0.09, 24), mat);
                 crown.position.set(0, 1.93, 0.01);
                 garmentGroup.add(crown);
+
+                const topButton = new THREE.Mesh(new THREE.SphereGeometry(0.014, 10, 10), mat);
+                topButton.position.set(0, 1.98, 0.01);
+                garmentGroup.add(topButton);
 
                 const brim = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.012, 0.14), mat);
                 brim.position.set(0, 1.90, 0.14);
@@ -569,37 +853,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 studsGroups.head = createChromeStuds([[-0.06, 1.93, 0.13], [0.06, 1.93, 0.13]], garmentGroup);
             } else if (item.type === 'beanie') {
-                const dome = new THREE.Mesh(new THREE.SphereGeometry(0.135, 24, 20), mat);
-                dome.position.set(0, 1.92, 0);
+                const dome = new THREE.Mesh(new THREE.SphereGeometry(0.138, 24, 20), mat);
+                dome.position.set(0, 1.93, 0);
                 dome.scale.set(1.02, 1.25, 1.05);
                 garmentGroup.add(dome);
 
-                const cuff = new THREE.Mesh(new THREE.TorusGeometry(0.132, 0.024, 16, 32), mat);
+                const cuff = new THREE.Mesh(new THREE.TorusGeometry(0.134, 0.026, 16, 32), mat);
                 cuff.position.set(0, 1.88, 0);
                 cuff.rotation.x = Math.PI / 2;
                 garmentGroup.add(cuff);
 
                 studsGroups.head = createChromeStuds([[-0.05, 1.88, 0.14], [0.05, 1.88, 0.14]], garmentGroup);
             } else if (item.type === 'bucket') {
-                const crown = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.132, 0.10, 24), mat);
+                const crown = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.134, 0.10, 24), mat);
                 crown.position.set(0, 1.94, 0);
                 garmentGroup.add(crown);
 
-                const brim = new THREE.Mesh(new THREE.ConeGeometry(0.22, 0.06, 32, 1, true), mat);
+                const brim = new THREE.Mesh(new THREE.ConeGeometry(0.23, 0.06, 32, 1, true), mat);
                 brim.position.set(0, 1.88, 0);
                 brim.rotation.x = Math.PI;
                 garmentGroup.add(brim);
 
-                studsGroups.head = createChromeStuds([[0, 1.94, 0.125], [-0.08, 1.94, 0.11], [0.08, 1.94, 0.11]], garmentGroup);
+                studsGroups.head = createChromeStuds([[0, 1.94, 0.13], [-0.08, 1.94, 0.11], [0.08, 1.94, 0.11]], garmentGroup);
             } else if (item.type === 'beret') {
-                const puff = new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.135, 0.05, 32), mat);
+                const puff = new THREE.Mesh(new THREE.CylinderGeometry(0.19, 0.136, 0.05, 32), mat);
                 puff.position.set(0.04, 1.94, 0.01);
                 puff.rotation.z = -0.25;
                 garmentGroup.add(puff);
 
                 studsGroups.head = createChromeStuds([[0.05, 1.95, 0.12]], garmentGroup);
             } else if (item.type === 'balaclava') {
-                const hood = new THREE.Mesh(new THREE.SphereGeometry(0.132, 24, 24), mat);
+                const hood = new THREE.Mesh(new THREE.SphereGeometry(0.134, 24, 24), mat);
                 hood.position.set(0, 1.85, 0);
                 hood.scale.set(1.02, 1.35, 1.05);
                 garmentGroup.add(hood);
@@ -612,303 +896,380 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // ------------------ TORSO ------------------
+        // =========================================================
+        // B. TORSO REPLICATION (AUTHENTIC STREETWEAR STYLES)
+        // =========================================================
         else if (region === 'torso') {
+            // 1. DECONSTRUCTED GRAPHIC TEE
             if (item.type === 'tee') {
-                // T-Shirt Body
-                const teeBody = new THREE.Mesh(new THREE.CylinderGeometry(0.205, 0.18, 0.52, 32), mat);
+                const teeBody = new THREE.Mesh(new THREE.CylinderGeometry(0.21 * chestWidthMult, 0.185 * chestWidthMult, 0.52, 32), mat);
                 teeBody.position.set(0, 1.35, 0);
                 teeBody.scale.set(1.18, 1.0, 0.82);
                 garmentGroup.add(teeBody);
 
-                // Ribbed Crew Collar
-                const collar = new THREE.Mesh(new THREE.TorusGeometry(0.095, 0.014, 14, 32), mat);
+                // Prominently placed Streetwear Graphic Decal (Placed safely outside chest mesh)
+                const decalGeo = new THREE.PlaneGeometry(0.25 * chestWidthMult, 0.29);
+                const decalMat = new THREE.MeshBasicMaterial({
+                    map: createGraphicTeeTexture(),
+                    transparent: true,
+                    polygonOffset: true,
+                    polygonOffsetFactor: -1,
+                    polygonOffsetUnits: -1
+                });
+                const decalMesh = new THREE.Mesh(decalGeo, decalMat);
+                decalMesh.name = 'tee-graphic-decal';
+                decalMesh.position.set(0, 1.36, 0.178);
+                garmentGroup.add(decalMesh);
+
+                // Ribbed Crewneck Collar
+                const ribMat = new THREE.MeshStandardMaterial({ color: 0x22202c, roughness: 0.6 });
+                const collar = new THREE.Mesh(new THREE.TorusGeometry(0.098, 0.014, 14, 32), ribMat);
                 collar.position.set(0, 1.58, 0);
                 collar.rotation.x = Math.PI / 2;
                 garmentGroup.add(collar);
 
-                // Short Sleeves
-                const sleeveL = new THREE.Mesh(new THREE.CylinderGeometry(0.062, 0.058, 0.16, 20), mat);
-                sleeveL.position.set(-0.27, 1.44, 0);
-                sleeveL.rotation.z = -0.35;
+                // Drop-Shoulder Sleeves
+                const sleeveL = new THREE.Mesh(new THREE.CylinderGeometry(0.064, 0.056, 0.16, 20), mat);
+                sleeveL.position.set(-shoulderSpread - 0.03, 1.44, 0);
+                sleeveL.rotation.z = -0.32;
                 garmentGroup.add(sleeveL);
 
-                const sleeveR = new THREE.Mesh(new THREE.CylinderGeometry(0.062, 0.058, 0.16, 20), mat);
-                sleeveR.position.set(0.27, 1.44, 0);
-                sleeveR.rotation.z = 0.35;
+                const sleeveR = new THREE.Mesh(new THREE.CylinderGeometry(0.064, 0.056, 0.16, 20), mat);
+                sleeveR.position.set(shoulderSpread + 0.03, 1.44, 0);
+                sleeveR.rotation.z = 0.32;
                 garmentGroup.add(sleeveR);
 
-                // Long Sleeve Extensions (hidden if short sleeve mode)
+                // Long Sleeve Extensions
                 const longExtL = new THREE.Mesh(new THREE.CylinderGeometry(0.048, 0.042, 0.26, 20), mat);
                 longExtL.name = 'sleeve-long-mesh-l';
-                longExtL.position.set(-0.31, 1.23, 0.03);
+                longExtL.position.set(-shoulderSpread - 0.07, 1.23, 0.03);
                 longExtL.rotation.z = -0.12;
                 longExtL.visible = (currentSleeveMode === 'long');
                 garmentGroup.add(longExtL);
 
                 const longExtR = new THREE.Mesh(new THREE.CylinderGeometry(0.048, 0.042, 0.26, 20), mat);
                 longExtR.name = 'sleeve-long-mesh-r';
-                longExtR.position.set(0.31, 1.23, 0.03);
+                longExtR.position.set(shoulderSpread + 0.07, 1.23, 0.03);
                 longExtR.rotation.z = 0.12;
                 longExtR.visible = (currentSleeveMode === 'long');
                 garmentGroup.add(longExtR);
 
                 studsGroups.torso = createChromeStuds([
-                    [-0.08, 1.46, 0.14], [0.08, 1.46, 0.14],
-                    [-0.04, 1.38, 0.14], [0.04, 1.38, 0.14]
+                    [-0.08, 1.54, 0.15], [0.08, 1.54, 0.15],
+                    [-0.14, 1.52, 0.12], [0.14, 1.52, 0.12]
                 ], garmentGroup);
-            } else if (item.type === 'hoodie') {
-                // Bulky Hoodie Body
-                const hoodieBody = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.19, 0.56, 32), mat);
+            }
+            // 2. HYPER-OBJECT HOODIE
+            else if (item.type === 'hoodie') {
+                const hoodieBody = new THREE.Mesh(new THREE.CylinderGeometry(0.23 * chestWidthMult, 0.20 * chestWidthMult, 0.56, 32), mat);
                 hoodieBody.position.set(0, 1.34, 0);
                 hoodieBody.scale.set(1.22, 1.0, 0.88);
                 garmentGroup.add(hoodieBody);
 
-                // Hood Cowl behind neck
-                const cowl = new THREE.Mesh(new THREE.TorusGeometry(0.135, 0.045, 16, 32), mat);
+                // Draped Hood Cowl behind neck
+                const cowl = new THREE.Mesh(new THREE.TorusGeometry(0.145, 0.048, 16, 32), mat);
                 cowl.position.set(0, 1.62, -0.06);
                 cowl.rotation.x = Math.PI / 3;
                 garmentGroup.add(cowl);
 
-                // Kangaroo Front Pouch
-                const pouch = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.14, 0.06), mat);
-                pouch.position.set(0, 1.20, 0.15);
+                // Kangaroo Front Pouch Pocket
+                const pouch = new THREE.Mesh(new THREE.BoxGeometry(0.25 * chestWidthMult, 0.14, 0.06), mat);
+                pouch.position.set(0, 1.20, 0.165);
                 garmentGroup.add(pouch);
 
-                // Full Sleeves
-                const armL = new THREE.Mesh(new THREE.CylinderGeometry(0.068, 0.052, 0.46, 20), mat);
-                armL.position.set(-0.30, 1.30, 0.02);
+                // Relaxed Full Sleeves
+                const armL = new THREE.Mesh(new THREE.CylinderGeometry(0.072, 0.054, 0.46, 20), mat);
+                armL.position.set(-shoulderSpread - 0.06, 1.30, 0.02);
                 armL.rotation.z = -0.18;
                 garmentGroup.add(armL);
 
-                const armR = new THREE.Mesh(new THREE.CylinderGeometry(0.068, 0.052, 0.46, 20), mat);
-                armR.position.set(0.30, 1.30, 0.02);
+                const armR = new THREE.Mesh(new THREE.CylinderGeometry(0.072, 0.054, 0.46, 20), mat);
+                armR.position.set(shoulderSpread + 0.06, 1.30, 0.02);
                 armR.rotation.z = 0.18;
                 garmentGroup.add(armR);
 
+                // White Drawstrings with Metallic Chrome Aglets
+                const stringMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+                const stringL = new THREE.Mesh(new THREE.CylinderGeometry(0.003, 0.003, 0.12, 8), stringMat);
+                stringL.position.set(-0.04, 1.50, 0.16);
+                garmentGroup.add(stringL);
+
+                const stringR = new THREE.Mesh(new THREE.CylinderGeometry(0.003, 0.003, 0.12, 8), stringMat);
+                stringR.position.set(0.04, 1.50, 0.16);
+                garmentGroup.add(stringR);
+
                 studsGroups.torso = createChromeStuds([
-                    [-0.10, 1.22, 0.18], [0.10, 1.22, 0.18],
-                    [0, 1.48, 0.15]
+                    [-0.10, 1.22, 0.20], [0.10, 1.22, 0.20],
+                    [0, 1.48, 0.17]
                 ], garmentGroup);
-            } else if (item.type === 'vest') {
-                // Sleeveless Open Biker Vest
-                const vestBody = new THREE.Mesh(new THREE.CylinderGeometry(0.21, 0.18, 0.48, 32), mat);
+            }
+            // 3. ACID-WASH BIKER VEST
+            else if (item.type === 'vest') {
+                const vestBody = new THREE.Mesh(new THREE.CylinderGeometry(0.215 * chestWidthMult, 0.185 * chestWidthMult, 0.48, 32), mat);
                 vestBody.position.set(0, 1.35, 0);
                 vestBody.scale.set(1.18, 1.0, 0.82);
                 garmentGroup.add(vestBody);
 
-                // V-Lapels
-                const lapelL = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.22, 0.02), mat);
-                lapelL.position.set(-0.08, 1.46, 0.14);
+                // Wide Moto Lapels
+                const lapelL = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.24, 0.02), mat);
+                lapelL.position.set(-0.08 * chestWidthMult, 1.46, 0.16);
                 lapelL.rotation.z = -0.3;
                 garmentGroup.add(lapelL);
 
-                const lapelR = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.22, 0.02), mat);
-                lapelR.position.set(0.08, 1.46, 0.14);
+                const lapelR = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.24, 0.02), mat);
+                lapelR.position.set(0.08 * chestWidthMult, 1.46, 0.16);
                 lapelR.rotation.z = 0.3;
                 garmentGroup.add(lapelR);
 
+                // Heavy Chrome Diagonal Moto Zipper
+                const zipMat = new THREE.MeshStandardMaterial({ color: 0xd8e0e8, metalness: 0.95, roughness: 0.15 });
+                const zipTrack = new THREE.Mesh(new THREE.BoxGeometry(0.014, 0.36, 0.01), zipMat);
+                zipTrack.position.set(0.03, 1.32, 0.165);
+                zipTrack.rotation.z = -0.16;
+                garmentGroup.add(zipTrack);
+
+                // Waist Belt
+                const belt = new THREE.Mesh(new THREE.CylinderGeometry(0.22 * chestWidthMult, 0.22 * chestWidthMult, 0.04, 32), zipMat);
+                belt.position.set(0, 1.13, 0);
+                belt.scale.set(1.18, 1.0, 0.82);
+                garmentGroup.add(belt);
+
                 studsGroups.torso = createChromeStuds([
-                    [-0.07, 1.52, 0.15], [0.07, 1.52, 0.15],
-                    [-0.09, 1.40, 0.15], [0.09, 1.40, 0.15]
+                    [-0.08, 1.54, 0.17], [0.08, 1.54, 0.17],
+                    [-0.10, 1.40, 0.17], [0.10, 1.40, 0.17]
                 ], garmentGroup);
-            } else if (item.type === 'jacket') {
-                // Denim Structured Jacket
-                const jacketBody = new THREE.Mesh(new THREE.CylinderGeometry(0.215, 0.19, 0.50, 32), mat);
+            }
+            // 4. OVERSIZED DENIM JACKET
+            else if (item.type === 'jacket') {
+                const jacketBody = new THREE.Mesh(new THREE.CylinderGeometry(0.22 * chestWidthMult, 0.195 * chestWidthMult, 0.50, 32), mat);
                 jacketBody.position.set(0, 1.34, 0);
                 jacketBody.scale.set(1.2, 1.0, 0.85);
                 garmentGroup.add(jacketBody);
 
-                // Flapped Chest Pockets
+                // Turn-Down Collar
+                const collarMat = new THREE.MeshStandardMaterial({ color: 0x1f3b60, roughness: 0.6 });
+                const collar = new THREE.Mesh(new THREE.TorusGeometry(0.115, 0.024, 12, 32), collarMat);
+                collar.position.set(0, 1.58, 0);
+                collar.rotation.x = Math.PI / 2;
+                garmentGroup.add(collar);
+
+                // Dual Chest Flap Pockets
                 const pocketL = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.08, 0.02), mat);
-                pocketL.position.set(-0.10, 1.42, 0.15);
+                pocketL.position.set(-0.10 * chestWidthMult, 1.42, 0.165);
                 garmentGroup.add(pocketL);
 
                 const pocketR = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.08, 0.02), mat);
-                pocketR.position.set(0.10, 1.42, 0.15);
+                pocketR.position.set(0.10 * chestWidthMult, 1.42, 0.165);
                 garmentGroup.add(pocketR);
 
-                // Sleeves
-                const armL = new THREE.Mesh(new THREE.CylinderGeometry(0.064, 0.05, 0.46, 20), mat);
-                armL.position.set(-0.29, 1.30, 0.02);
+                // Structured Sleeves
+                const armL = new THREE.Mesh(new THREE.CylinderGeometry(0.068, 0.052, 0.46, 20), mat);
+                armL.position.set(-shoulderSpread - 0.06, 1.30, 0.02);
                 armL.rotation.z = -0.16;
                 garmentGroup.add(armL);
 
-                const armR = new THREE.Mesh(new THREE.CylinderGeometry(0.064, 0.05, 0.46, 20), mat);
-                armR.position.set(0.29, 1.30, 0.02);
+                const armR = new THREE.Mesh(new THREE.CylinderGeometry(0.068, 0.052, 0.46, 20), mat);
+                armR.position.set(shoulderSpread + 0.06, 1.30, 0.02);
                 armR.rotation.z = 0.16;
                 garmentGroup.add(armR);
 
                 studsGroups.torso = createChromeStuds([
-                    [0, 1.50, 0.15], [0, 1.40, 0.15], [0, 1.30, 0.15], [0, 1.20, 0.15]
+                    [-0.10, 1.45, 0.175], [0.10, 1.45, 0.175],
+                    [0, 1.35, 0.175], [0, 1.25, 0.175]
                 ], garmentGroup);
-            } else if (item.type === 'sweater') {
-                // High Zip Funnel Sweater
-                const sweaterBody = new THREE.Mesh(new THREE.CylinderGeometry(0.208, 0.182, 0.50, 32), mat);
-                sweaterBody.position.set(0, 1.34, 0);
-                sweaterBody.scale.set(1.18, 1.0, 0.82);
+            }
+            // 5. TECHWEAR ZIP SWEATER
+            else if (item.type === 'sweater') {
+                const sweaterBody = new THREE.Mesh(new THREE.CylinderGeometry(0.215 * chestWidthMult, 0.19 * chestWidthMult, 0.52, 32), mat);
+                sweaterBody.position.set(0, 1.35, 0);
+                sweaterBody.scale.set(1.18, 1.0, 0.84);
                 garmentGroup.add(sweaterBody);
 
-                // Funnel Neck
-                const funnelNeck = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.085, 0.12, 24), mat);
-                funnelNeck.position.set(0, 1.62, 0);
-                garmentGroup.add(funnelNeck);
+                // Mock Neck Stand Collar
+                const neckStand = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.09, 0.08, 24), mat);
+                neckStand.position.set(0, 1.62, 0);
+                garmentGroup.add(neckStand);
 
-                const armL = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.048, 0.46, 20), mat);
-                armL.position.set(-0.29, 1.30, 0.02);
+                // Waterproof Taped Center Quarter-Zip
+                const zipMat = new THREE.MeshBasicMaterial({ color: 0x00f0ff });
+                const zipMesh = new THREE.Mesh(new THREE.BoxGeometry(0.012, 0.22, 0.01), zipMat);
+                zipMesh.position.set(0, 1.50, 0.165);
+                garmentGroup.add(zipMesh);
+
+                // Sleeves
+                const armL = new THREE.Mesh(new THREE.CylinderGeometry(0.065, 0.048, 0.46, 20), mat);
+                armL.position.set(-shoulderSpread - 0.05, 1.30, 0.02);
                 armL.rotation.z = -0.16;
                 garmentGroup.add(armL);
 
-                const armR = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.048, 0.46, 20), mat);
-                armR.position.set(0.29, 1.30, 0.02);
+                const armR = new THREE.Mesh(new THREE.CylinderGeometry(0.065, 0.048, 0.46, 20), mat);
+                armR.position.set(shoulderSpread + 0.06, 1.30, 0.02);
                 armR.rotation.z = 0.16;
                 garmentGroup.add(armR);
 
-                studsGroups.torso = createChromeStuds([[0, 1.64, 0.085], [0, 1.56, 0.14]], garmentGroup);
+                studsGroups.torso = createChromeStuds([
+                    [-0.08, 1.56, 0.16], [0.08, 1.56, 0.16]
+                ], garmentGroup);
             }
         }
 
-        // ------------------ LEGS ------------------
+        // =========================================================
+        // C. LEGS REPLICATION
+        // =========================================================
         else if (region === 'legs') {
-            if (item.type === 'cargo' || item.type === 'jeans' || item.type === 'track' || item.type === 'joggers') {
-                const legL = new THREE.Mesh(new THREE.CylinderGeometry(0.092, 0.062, 0.88, 24), mat);
-                legL.position.set(-0.11, 0.52, 0);
-                garmentGroup.add(legL);
+            const pantL = new THREE.Mesh(new THREE.CylinderGeometry(0.092, 0.072, 0.90, 24), mat);
+            pantL.position.set(-0.11, 0.52, 0);
+            garmentGroup.add(pantL);
 
-                const legR = new THREE.Mesh(new THREE.CylinderGeometry(0.092, 0.062, 0.88, 24), mat);
-                legR.position.set(0.11, 0.52, 0);
-                garmentGroup.add(legR);
+            const pantR = new THREE.Mesh(new THREE.CylinderGeometry(0.092, 0.072, 0.90, 24), mat);
+            pantR.position.set(0.11, 0.52, 0);
+            garmentGroup.add(pantR);
 
-                const pelvisWaist = new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.19, 0.22, 32), mat);
-                pelvisWaist.position.set(0, 1.02, 0);
-                pelvisWaist.scale.set(1.15, 1.0, 0.78);
-                garmentGroup.add(pelvisWaist);
+            // 1. CARGO TROUSERS: 3D Box Gusset Pockets
+            if (item.type === 'cargo') {
+                const pocketBoxL = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.15, 0.10), mat);
+                pocketBoxL.position.set(-0.20, 0.56, 0.02);
+                garmentGroup.add(pocketBoxL);
 
-                if (item.type === 'cargo') {
-                    // 3D Outer Cargo Pockets
-                    const pocketL = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.12, 0.10), mat);
-                    pocketL.position.set(-0.20, 0.65, 0);
-                    garmentGroup.add(pocketL);
+                const pocketBoxR = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.15, 0.10), mat);
+                pocketBoxR.position.set(0.20, 0.56, 0.02);
+                garmentGroup.add(pocketBoxR);
 
-                    const pocketR = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.12, 0.10), mat);
-                    pocketR.position.set(0.20, 0.65, 0);
-                    garmentGroup.add(pocketR);
+                studsGroups.legs = createChromeStuds([[-0.22, 0.62, 0.04], [0.22, 0.62, 0.04]], garmentGroup);
+            }
+            // 2. SELVEDGE JEANS: Contrast Seams & Distress Accents
+            else if (item.type === 'jeans') {
+                const stitchMat = new THREE.MeshBasicMaterial({ color: 0xd4a040 });
+                const waistStitch = new THREE.Mesh(new THREE.TorusGeometry(0.18, 0.005, 8, 32), stitchMat);
+                waistStitch.position.set(0, 0.98, 0);
+                waistStitch.rotation.x = Math.PI / 2;
+                garmentGroup.add(waistStitch);
 
-                    studsGroups.legs = createChromeStuds([[-0.20, 0.70, 0.04], [0.20, 0.70, 0.04]], garmentGroup);
-                } else if (item.type === 'track') {
-                    // White racing side stripe
-                    const stripeMat = new THREE.MeshBasicMaterial({ color: 0x00f0ff });
-                    const stripeL = new THREE.Mesh(new THREE.BoxGeometry(0.01, 0.86, 0.02), stripeMat);
-                    stripeL.position.set(-0.20, 0.52, 0);
-                    garmentGroup.add(stripeL);
+                studsGroups.legs = createChromeStuds([[-0.16, 0.95, 0.08], [0.16, 0.95, 0.08]], garmentGroup);
+            }
+            // 3. CYBERPUNK SHORTS: Layered Outer Shorts + Compression Tights
+            else if (item.type === 'shorts') {
+                pantL.scale.set(1.2, 0.45, 1.2);
+                pantL.position.y = 0.76;
+                pantR.scale.set(1.2, 0.45, 1.2);
+                pantR.position.y = 0.76;
 
-                    const stripeR = new THREE.Mesh(new THREE.BoxGeometry(0.01, 0.86, 0.02), stripeMat);
-                    stripeR.position.set(0.20, 0.52, 0);
-                    garmentGroup.add(stripeR);
-                } else if (item.type === 'joggers') {
-                    // Elastic ribbed ankle cuffs
-                    const cuffL = new THREE.Mesh(new THREE.CylinderGeometry(0.065, 0.05, 0.06, 20), mat);
-                    cuffL.position.set(-0.11, 0.10, 0);
-                    garmentGroup.add(cuffL);
+                const tightMat = new THREE.MeshStandardMaterial({ color: 0x111118, roughness: 0.3 });
+                const tightL = new THREE.Mesh(new THREE.CylinderGeometry(0.075, 0.055, 0.52, 20), tightMat);
+                tightL.position.set(-0.11, 0.38, 0);
+                garmentGroup.add(tightL);
 
-                    const cuffR = new THREE.Mesh(new THREE.CylinderGeometry(0.065, 0.05, 0.06, 20), mat);
-                    cuffR.position.set(0.11, 0.10, 0);
-                    garmentGroup.add(cuffR);
-                }
-            } else if (item.type === 'shorts') {
-                const shortL = new THREE.Mesh(new THREE.CylinderGeometry(0.095, 0.088, 0.35, 24), mat);
-                shortL.position.set(-0.11, 0.82, 0);
-                garmentGroup.add(shortL);
+                const tightR = new THREE.Mesh(new THREE.CylinderGeometry(0.075, 0.055, 0.52, 20), tightMat);
+                tightR.position.set(0.11, 0.38, 0);
+                garmentGroup.add(tightR);
 
-                const shortR = new THREE.Mesh(new THREE.CylinderGeometry(0.095, 0.088, 0.35, 24), mat);
-                shortR.position.set(0.11, 0.82, 0);
-                garmentGroup.add(shortR);
+                studsGroups.legs = createChromeStuds([[-0.19, 0.74, 0.08], [0.19, 0.74, 0.08]], garmentGroup);
+            }
+            // 4. FLARE TRACK PANTS: High-Contrast Racing Stripes
+            else if (item.type === 'track') {
+                pantL.scale.set(1.15, 1.0, 1.15);
+                pantR.scale.set(1.15, 1.0, 1.15);
 
-                const waist = new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.19, 0.22, 32), mat);
-                waist.position.set(0, 1.02, 0);
-                waist.scale.set(1.15, 1.0, 0.78);
-                garmentGroup.add(waist);
+                const stripeMat = new THREE.MeshBasicMaterial({ color: 0x00f0ff });
+                const stripeL = new THREE.Mesh(new THREE.BoxGeometry(0.008, 0.88, 0.04), stripeMat);
+                stripeL.position.set(-0.21, 0.52, 0);
+                garmentGroup.add(stripeL);
 
-                studsGroups.legs = createChromeStuds([[-0.18, 0.95, 0.08], [0.18, 0.95, 0.08]], garmentGroup);
+                const stripeR = new THREE.Mesh(new THREE.BoxGeometry(0.008, 0.88, 0.04), stripeMat);
+                stripeR.position.set(0.21, 0.52, 0);
+                garmentGroup.add(stripeR);
+
+                studsGroups.legs = createChromeStuds([[-0.14, 0.94, 0.07], [0.14, 0.94, 0.07]], garmentGroup);
+            }
+            // 5. UTILITY JOGGERS
+            else if (item.type === 'joggers') {
+                studsGroups.legs = createChromeStuds([[-0.15, 0.85, 0.06], [0.15, 0.85, 0.06]], garmentGroup);
             }
         }
 
-        // ------------------ FOOTWEAR ------------------
+        // =========================================================
+        // D. FOOTWEAR REPLICATION
+        // =========================================================
         else if (region === 'feet') {
+            // 1. QUANTUM CHUNKY SNEAKERS
             if (item.type === 'sneakers') {
-                // Quantum Chunky Sneakers (Sculpted Sole + Upper)
                 const soleMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.3 });
-                const soleL = new THREE.Mesh(new THREE.BoxGeometry(0.09, 0.05, 0.22), soleMat);
-                soleL.position.set(-0.11, 0.025, 0.04);
+                const soleL = new THREE.Mesh(new THREE.BoxGeometry(0.11, 0.06, 0.24), soleMat);
+                soleL.position.set(-0.11, 0.03, 0.03);
                 garmentGroup.add(soleL);
 
-                const upperL = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.07, 0.19), mat);
-                upperL.position.set(-0.11, 0.065, 0.03);
+                const upperL = new THREE.Mesh(new THREE.BoxGeometry(0.09, 0.08, 0.20), mat);
+                upperL.position.set(-0.11, 0.08, 0.03);
                 garmentGroup.add(upperL);
 
-                const soleR = new THREE.Mesh(new THREE.BoxGeometry(0.09, 0.05, 0.22), soleMat);
-                soleR.position.set(0.11, 0.025, 0.04);
+                const soleR = new THREE.Mesh(new THREE.BoxGeometry(0.11, 0.06, 0.24), soleMat);
+                soleR.position.set(0.11, 0.03, 0.03);
                 garmentGroup.add(soleR);
 
-                const upperR = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.07, 0.19), mat);
-                upperR.position.set(0.11, 0.065, 0.03);
+                const upperR = new THREE.Mesh(new THREE.BoxGeometry(0.09, 0.08, 0.20), mat);
+                upperR.position.set(0.11, 0.08, 0.03);
                 garmentGroup.add(upperR);
 
                 studsGroups.feet = createChromeStuds([[-0.11, 0.08, 0.12], [0.11, 0.08, 0.12]], garmentGroup);
-            } else if (item.type === 'combat') {
-                // High-Shaft Rugged Boots
-                const bootShaftL = new THREE.Mesh(new THREE.CylinderGeometry(0.065, 0.06, 0.22, 20), mat);
-                bootShaftL.position.set(-0.11, 0.14, 0);
-                garmentGroup.add(bootShaftL);
+            }
+            // 2. COMBAT BOOTS
+            else if (item.type === 'combat') {
+                const bootL = new THREE.Mesh(new THREE.BoxGeometry(0.095, 0.20, 0.21), mat);
+                bootL.position.set(-0.11, 0.10, 0.03);
+                garmentGroup.add(bootL);
 
-                const bootFootL = new THREE.Mesh(new THREE.BoxGeometry(0.085, 0.07, 0.21), mat);
-                bootFootL.position.set(-0.11, 0.04, 0.04);
-                garmentGroup.add(bootFootL);
+                const bootR = new THREE.Mesh(new THREE.BoxGeometry(0.095, 0.20, 0.21), mat);
+                bootR.position.set(0.11, 0.10, 0.03);
+                garmentGroup.add(bootR);
 
-                const bootShaftR = new THREE.Mesh(new THREE.CylinderGeometry(0.065, 0.06, 0.22, 20), mat);
-                bootShaftR.position.set(0.11, 0.14, 0);
-                garmentGroup.add(bootShaftR);
-
-                const bootFootR = new THREE.Mesh(new THREE.BoxGeometry(0.085, 0.07, 0.21), mat);
-                bootFootR.position.set(0.11, 0.04, 0.04);
-                garmentGroup.add(bootFootR);
-
-                studsGroups.feet = createChromeStuds([[-0.11, 0.20, 0.06], [0.11, 0.20, 0.06]], garmentGroup);
-            } else if (item.type === 'canvas') {
-                const kickL = new THREE.Mesh(new THREE.BoxGeometry(0.075, 0.09, 0.20), mat);
-                kickL.position.set(-0.11, 0.055, 0.03);
+                studsGroups.feet = createChromeStuds([
+                    [-0.11, 0.14, 0.12], [0.11, 0.14, 0.12],
+                    [-0.11, 0.18, 0.11], [0.11, 0.18, 0.11]
+                ], garmentGroup);
+            }
+            // 3. CANVAS KICKS
+            else if (item.type === 'canvas') {
+                const kickL = new THREE.Mesh(new THREE.BoxGeometry(0.085, 0.12, 0.21), mat);
+                kickL.position.set(-0.11, 0.06, 0.03);
                 garmentGroup.add(kickL);
 
-                const kickR = new THREE.Mesh(new THREE.BoxGeometry(0.075, 0.09, 0.20), mat);
-                kickR.position.set(0.11, 0.055, 0.03);
+                const kickR = new THREE.Mesh(new THREE.BoxGeometry(0.085, 0.12, 0.21), mat);
+                kickR.position.set(0.11, 0.06, 0.03);
                 garmentGroup.add(kickR);
 
-                studsGroups.feet = createChromeStuds([[-0.11, 0.08, 0.11], [0.11, 0.08, 0.11]], garmentGroup);
-            } else if (item.type === 'chelsea') {
-                const chelseaL = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.11, 0.20), mat);
-                chelseaL.position.set(-0.11, 0.065, 0.03);
+                studsGroups.feet = createChromeStuds([[-0.11, 0.06, 0.12], [0.11, 0.06, 0.12]], garmentGroup);
+            }
+            // 4. CHELSEA BOOTS
+            else if (item.type === 'chelsea') {
+                const chelseaL = new THREE.Mesh(new THREE.BoxGeometry(0.085, 0.15, 0.22), mat);
+                chelseaL.position.set(-0.11, 0.07, 0.03);
                 garmentGroup.add(chelseaL);
 
-                const chelseaR = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.11, 0.20), mat);
-                chelseaR.position.set(0.11, 0.065, 0.03);
+                const chelseaR = new THREE.Mesh(new THREE.BoxGeometry(0.085, 0.15, 0.22), mat);
+                chelseaR.position.set(0.11, 0.07, 0.03);
                 garmentGroup.add(chelseaR);
-            } else if (item.type === 'slides') {
-                const soleMat = new THREE.MeshStandardMaterial({ color: 0x111111, roughness: 0.5 });
-                const slideSoleL = new THREE.Mesh(new THREE.BoxGeometry(0.09, 0.03, 0.22), soleMat);
-                slideSoleL.position.set(-0.11, 0.015, 0.04);
-                garmentGroup.add(slideSoleL);
 
-                const strapL = new THREE.Mesh(new THREE.BoxGeometry(0.095, 0.04, 0.09), mat);
-                strapL.position.set(-0.11, 0.045, 0.04);
+                studsGroups.feet = createChromeStuds([[-0.11, 0.07, 0.12], [0.11, 0.07, 0.12]], garmentGroup);
+            }
+            // 5. CYBER SLIDES
+            else if (item.type === 'slides') {
+                const slideL = new THREE.Mesh(new THREE.BoxGeometry(0.10, 0.045, 0.22), mat);
+                slideL.position.set(-0.11, 0.02, 0.03);
+                garmentGroup.add(slideL);
+
+                const strapL = new THREE.Mesh(new THREE.BoxGeometry(0.11, 0.05, 0.08), mat);
+                strapL.position.set(-0.11, 0.055, 0.04);
                 garmentGroup.add(strapL);
 
-                const slideSoleR = new THREE.Mesh(new THREE.BoxGeometry(0.09, 0.03, 0.22), soleMat);
-                slideSoleR.position.set(0.11, 0.015, 0.04);
-                garmentGroup.add(slideSoleR);
+                const slideR = new THREE.Mesh(new THREE.BoxGeometry(0.10, 0.045, 0.22), mat);
+                slideR.position.set(0.11, 0.02, 0.03);
+                garmentGroup.add(slideR);
 
-                const strapR = new THREE.Mesh(new THREE.BoxGeometry(0.095, 0.04, 0.09), mat);
-                strapR.position.set(0.11, 0.045, 0.04);
+                const strapR = new THREE.Mesh(new THREE.BoxGeometry(0.11, 0.05, 0.08), mat);
+                strapR.position.set(0.11, 0.055, 0.04);
                 garmentGroup.add(strapR);
+
+                studsGroups.feet = createChromeStuds([[-0.11, 0.07, 0.06], [0.11, 0.07, 0.06]], garmentGroup);
             }
         }
 
@@ -916,8 +1277,16 @@ document.addEventListener('DOMContentLoaded', () => {
         active3DGarments[region] = garmentGroup;
     }
 
+    function rebuildAllActiveGarments() {
+        Object.keys(selectedGarments).forEach(region => {
+            if (selectedGarments[region]) {
+                build3DGarmentMesh(region, selectedGarments[region]);
+            }
+        });
+    }
+
     // -------------------------------------------------------------
-    // 8. RAYCASTING & 3D INTERACTIVE ZONE SELECTION
+    // 8. 3D RAYCASTING & CLICK-TO-DRESS ZONES
     // -------------------------------------------------------------
     const raycaster = new THREE.Raycaster();
     const mouse = new THREE.Vector2();
@@ -936,9 +1305,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const region = hit.userData.region;
 
             if (hoveredMesh !== hit) {
-                if (hoveredMesh) hoveredMesh.material.emissive?.setHex(0x000000);
+                if (hoveredMesh && hoveredMesh.material && hoveredMesh.material.emissive) {
+                    hoveredMesh.material.emissive.setHex(0x000000);
+                }
                 hoveredMesh = hit;
-                if (hit.material.emissive) hit.material.emissive.setHex(0x1a0f30);
+                if (hit.material && hit.material.emissive) {
+                    hit.material.emissive.setHex(0x1a0f30);
+                }
             }
 
             if (regionLabel && region) {
@@ -948,7 +1321,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         } else {
             if (hoveredMesh) {
-                if (hoveredMesh.material.emissive) hoveredMesh.material.emissive.setHex(0x000000);
+                if (hoveredMesh && hoveredMesh.material && hoveredMesh.material.emissive) {
+                    hoveredMesh.material.emissive.setHex(0x000000);
+                }
                 hoveredMesh = null;
             }
             if (regionLabel) regionLabel.style.opacity = '0';
@@ -1016,7 +1391,10 @@ document.addEventListener('DOMContentLoaded', () => {
         // Reset Inputs for this garment
         if (customTextInput) customTextInput.value = '';
         if (toggleStudsInput) toggleStudsInput.checked = false;
-        if (tieDyeColorInput) tieDyeColorInput.value = item.defaultColor;
+        if (tieDyeColorInput) {
+            tieDyeColorInput.value = item.defaultColor;
+            if (colorHexLabel) colorHexLabel.textContent = item.defaultColor.toUpperCase();
+        }
     }
 
     if (backToListBtn) {
@@ -1041,23 +1419,22 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Custom Text Decal
+    // Custom Typography Decal Overlay
     if (customTextInput) {
         customTextInput.addEventListener('input', (e) => {
-            if (!activeRegion || !garmentMaterials[activeRegion]) return;
-            const text = e.target.value;
-            if (text.trim().length > 0) {
-                const decal = createDecalTexture(text);
-                garmentMaterials[activeRegion].map = decal;
-                garmentMaterials[activeRegion].needsUpdate = true;
-            } else {
-                garmentMaterials[activeRegion].map = null;
-                garmentMaterials[activeRegion].needsUpdate = true;
+            if (!activeRegion || !selectedGarments[activeRegion]) return;
+            const currentItem = selectedGarments[activeRegion];
+            if (currentItem.type === 'tee' && active3DGarments.torso) {
+                const decalMesh = active3DGarments.torso.getObjectByName('tee-graphic-decal');
+                if (decalMesh) {
+                    decalMesh.material.map = createGraphicTeeTexture(e.target.value);
+                    decalMesh.material.needsUpdate = true;
+                }
             }
         });
     }
 
-    // Metallic Studs Toggle
+    // Chrome Metallic Studs
     if (toggleStudsInput) {
         toggleStudsInput.addEventListener('change', (e) => {
             if (!activeRegion || !studsGroups[activeRegion]) return;
@@ -1068,6 +1445,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Real-Time Color Dye
     if (tieDyeColorInput) {
         tieDyeColorInput.addEventListener('input', (e) => {
+            const hex = e.target.value.toUpperCase();
+            if (colorHexLabel) colorHexLabel.textContent = hex;
             if (!activeRegion || !garmentMaterials[activeRegion]) return;
             garmentMaterials[activeRegion].color.set(e.target.value);
         });
@@ -1081,13 +1460,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const randomColor = colors[Math.floor(Math.random() * colors.length)];
             garmentMaterials[activeRegion].color.set(randomColor);
             if (tieDyeColorInput) tieDyeColorInput.value = randomColor;
+            if (colorHexLabel) colorHexLabel.textContent = randomColor.toUpperCase();
         });
     }
 
     // -------------------------------------------------------------
-    // 10. BASE AVATAR CUSTOMIZATION BINDINGS
+    // 10. SMART GENDER MORPHING & BASE AVATAR CUSTOMIZATION
     // -------------------------------------------------------------
-    // Gender / Silhouette Morphing
     if (genderSelect) {
         genderSelect.addEventListener('change', (e) => {
             currentGender = e.target.value;
@@ -1095,25 +1474,85 @@ document.addEventListener('DOMContentLoaded', () => {
                 genderBadge.textContent = currentGender.charAt(0).toUpperCase() + currentGender.slice(1);
             }
 
+            // FEMALE MORPHING
             if (currentGender === 'female') {
-                chestMesh.scale.set(1.15, 1.0, 0.75);
-                waistMesh.scale.set(0.92, 1.0, 0.70);
-                hipsMesh.scale.set(1.22, 1.0, 0.78);
+                // Soft runway curves, defined waist taper, flared hips
+                chestMesh.scale.set(1.12, 1.0, 0.74);
+                waistMesh.scale.set(0.96, 1.0, 0.68);
+                hipsMesh.scale.set(1.18, 1.0, 0.76);
                 shoulderL.position.x = -0.24;
                 shoulderR.position.x = 0.24;
-            } else if (currentGender === 'male') {
-                chestMesh.scale.set(1.30, 1.0, 0.85);
-                waistMesh.scale.set(1.08, 1.0, 0.78);
-                hipsMesh.scale.set(1.08, 1.0, 0.74);
-                shoulderL.position.x = -0.28;
-                shoulderR.position.x = 0.28;
-            } else {
+                armLeftUpper.position.x = -0.27;
+                armRightUpper.position.x = 0.27;
+                elbowL.position.x = -0.305;
+                elbowR.position.x = 0.305;
+                forearmLeft.position.x = -0.312;
+                forearmRight.position.x = 0.312;
+                handLeftMesh.position.x = -0.316;
+                handRightMesh.position.x = 0.316;
+                jawMesh.scale.set(0.92, 1.0, 0.90);
+
+                // Smart Hair Switch to Feminine Style
+                const femStyle = 'side-part';
+                build3DHair(femStyle);
+                if (hairStyleSelect) {
+                    hairStyleSelect.value = femStyle;
+                    if (hairBadge) hairBadge.textContent = '3D Editorial Side-Part';
+                }
+            }
+            // MALE MORPHING
+            else if (currentGender === 'male') {
+                // Broad athletic shoulders, sculpted pectorals, athletic V-taper, chiseled square jaw
+                chestMesh.scale.set(1.36, 1.0, 0.90);
+                waistMesh.scale.set(1.12, 1.0, 0.78);
+                hipsMesh.scale.set(1.04, 1.0, 0.72);
+                shoulderL.position.x = -0.30;
+                shoulderR.position.x = 0.30;
+                armLeftUpper.position.x = -0.33;
+                armRightUpper.position.x = 0.33;
+                elbowL.position.x = -0.365;
+                elbowR.position.x = 0.365;
+                forearmLeft.position.x = -0.372;
+                forearmRight.position.x = 0.372;
+                handLeftMesh.position.x = -0.376;
+                handRightMesh.position.x = 0.376;
+                jawMesh.scale.set(1.14, 1.05, 1.10);
+
+                // Smart Hair Switch to Masculine Style
+                const mascStyle = 'short-crop';
+                build3DHair(mascStyle);
+                if (hairStyleSelect) {
+                    hairStyleSelect.value = mascStyle;
+                    if (hairBadge) hairBadge.textContent = '3D Modern Textured Crop';
+                }
+            }
+            // NON-BINARY MORPHING
+            else {
                 chestMesh.scale.set(1.20, 1.0, 0.80);
-                waistMesh.scale.set(1.0, 1.0, 0.74);
-                hipsMesh.scale.set(1.14, 1.0, 0.76);
+                waistMesh.scale.set(1.02, 1.0, 0.72);
+                hipsMesh.scale.set(1.12, 1.0, 0.74);
                 shoulderL.position.x = -0.26;
                 shoulderR.position.x = 0.26;
+                armLeftUpper.position.x = -0.29;
+                armRightUpper.position.x = 0.29;
+                elbowL.position.x = -0.325;
+                elbowR.position.x = 0.325;
+                forearmLeft.position.x = -0.332;
+                forearmRight.position.x = 0.332;
+                handLeftMesh.position.x = -0.336;
+                handRightMesh.position.x = 0.336;
+                jawMesh.scale.set(1.02, 1.02, 0.98);
+
+                const nbStyle = 'curly-puff';
+                build3DHair(nbStyle);
+                if (hairStyleSelect) {
+                    hairStyleSelect.value = nbStyle;
+                    if (hairBadge) hairBadge.textContent = '3D Textured Afro High Puff';
+                }
             }
+
+            // Rebuild active garments to match the new gender body frame!
+            rebuildAllActiveGarments();
         });
     }
 
@@ -1129,10 +1568,12 @@ document.addEventListener('DOMContentLoaded', () => {
             currentHairColor = config.hairColor;
             hairMaterial.color.set(currentHairColor);
             if (hairColorInput) hairColorInput.value = currentHairColor;
+
+            eyeIrisMaterial.color.set(config.eyeColor);
         });
     }
 
-    // 3D Hair Style
+    // 3D Hair Style Manual Switcher
     if (hairStyleSelect) {
         hairStyleSelect.addEventListener('change', (e) => {
             const styleKey = e.target.value;
@@ -1161,96 +1602,104 @@ document.addEventListener('DOMContentLoaded', () => {
                 sleeveBadge.textContent = currentSleeveMode === 'short' ? 'Short Sleeves' : 'Long Sleeves';
             }
 
-            // Update 3D tee sleeve visibility if equipped
             if (active3DGarments.torso) {
-                const extL = active3DGarments.torso.getObjectByName('sleeve-long-mesh-l');
-                const extR = active3DGarments.torso.getObjectByName('sleeve-long-mesh-r');
-                if (extL) extL.visible = (currentSleeveMode === 'long');
-                if (extR) extR.visible = (currentSleeveMode === 'long');
+                const lMesh = active3DGarments.torso.getObjectByName('sleeve-long-mesh-l');
+                const rMesh = active3DGarments.torso.getObjectByName('sleeve-long-mesh-r');
+                if (lMesh) lMesh.visible = (currentSleeveMode === 'long');
+                if (rMesh) rMesh.visible = (currentSleeveMode === 'long');
             }
         });
     }
 
     // Skin Tone Swatches
-    if (skinPicker) {
-        skinPicker.forEach(swatch => {
-            swatch.addEventListener('click', (e) => {
-                skinPicker.forEach(s => s.classList.remove('active'));
-                swatch.classList.add('active');
-                currentSkinTone = swatch.getAttribute('data-tone');
-                skinMaterial.color.set(currentSkinTone);
-            });
+    skinPicker.forEach(swatch => {
+        swatch.addEventListener('click', () => {
+            skinPicker.forEach(s => s.classList.remove('active'));
+            swatch.classList.add('active');
+            const tone = swatch.getAttribute('data-tone');
+            currentSkinTone = tone;
+            skinMaterial.color.set(tone);
         });
-    }
+    });
 
     // Body Proportions
     if (bodyTypeSelect) {
         bodyTypeSelect.addEventListener('change', (e) => {
             currentBodyType = e.target.value;
             if (currentBodyType === 'slim') {
-                mannequinRoot.scale.set(0.92, 1.0, 0.92);
-            } else if (currentBodyType === 'athletic') {
-                mannequinRoot.scale.set(1.0, 1.0, 1.0);
+                chestMesh.scale.x *= 0.90;
+                waistMesh.scale.x *= 0.88;
+                thighLeft.scale.x = 0.85;
+                thighRight.scale.x = 0.85;
             } else if (currentBodyType === 'plus') {
-                mannequinRoot.scale.set(1.15, 1.0, 1.15);
+                chestMesh.scale.x *= 1.14;
+                waistMesh.scale.x *= 1.16;
+                hipsMesh.scale.x *= 1.15;
+                thighLeft.scale.x = 1.18;
+                thighRight.scale.x = 1.18;
+            } else {
+                chestMesh.scale.x = (currentGender === 'male') ? 1.36 : 1.12;
+                waistMesh.scale.x = (currentGender === 'male') ? 1.12 : 0.96;
+                thighLeft.scale.x = 1.0;
+                thighRight.scale.x = 1.0;
             }
+            rebuildAllActiveGarments();
         });
     }
 
     // Height Scale
     if (heightSlider) {
         heightSlider.addEventListener('input', (e) => {
-            const h = parseFloat(e.target.value);
-            mannequinRoot.scale.y = h;
+            currentHeightScale = parseFloat(e.target.value);
+            mannequinRoot.scale.y = currentHeightScale;
         });
     }
 
-    // -------------------------------------------------------------
-    // 11. TURNTABLE & CAMERA CONTROLS
-    // -------------------------------------------------------------
-    if (autoRotateBtn && controls) {
+    // Turntable Controls
+    if (autoRotateBtn) {
         autoRotateBtn.addEventListener('click', () => {
-            controls.autoRotate = !controls.autoRotate;
-            autoRotateBtn.classList.toggle('active', controls.autoRotate);
-            if (autoRotateText) {
-                autoRotateText.textContent = controls.autoRotate ? 'Spinning...' : 'Auto-Spin';
+            if (controls) {
+                controls.autoRotate = !controls.autoRotate;
+                autoRotateBtn.classList.toggle('active', controls.autoRotate);
+                if (autoRotateText) {
+                    autoRotateText.textContent = controls.autoRotate ? 'Spinning...' : 'Auto-Spin';
+                }
             }
         });
     }
 
-    if (resetCamBtn && controls) {
+    if (resetCamBtn) {
         resetCamBtn.addEventListener('click', () => {
-            controls.reset();
-            camera.position.set(0, 1.25, 3.8);
-            controls.target.set(0, 1.1, 0);
+            if (controls) {
+                controls.reset();
+                camera.position.set(0, 1.25, 3.8);
+                controls.target.set(0, 1.1, 0);
+            }
         });
     }
 
-    // Responsive Canvas Resize
+    // -------------------------------------------------------------
+    // 11. ANIMATION LOOP & RESIZE OBSERVER
+    // -------------------------------------------------------------
+    const clock = new THREE.Clock();
+
+    function animate() {
+        requestAnimationFrame(animate);
+        const elapsedTime = clock.getElapsedTime();
+
+        // Subtle organic breathing animation
+        chestMesh.scale.z = (0.74 * (currentGender === 'male' ? 1.2 : 1.0)) + (Math.sin(elapsedTime * 1.8) * 0.015);
+
+        if (controls) controls.update();
+        renderer.render(scene, camera);
+    }
+
+    animate();
+
     window.addEventListener('resize', () => {
         if (!container) return;
         camera.aspect = container.clientWidth / container.clientHeight;
         camera.updateProjectionMatrix();
         renderer.setSize(container.clientWidth, container.clientHeight);
     });
-
-    // -------------------------------------------------------------
-    // 12. ANIMATION LOOP
-    // -------------------------------------------------------------
-    const clock = new THREE.Clock();
-
-    function animate() {
-        requestAnimationFrame(animate);
-        const delta = clock.getDelta();
-
-        if (controls) controls.update();
-
-        // Subtle runway light animation
-        const time = clock.getElapsedTime();
-        ring.rotation.z = time * 0.15;
-
-        renderer.render(scene, camera);
-    }
-
-    animate();
 });
