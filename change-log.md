@@ -11,7 +11,7 @@
 
 ## 📍 Last Edited Points & Core Logic
 
-- [Persona Update] Primary buyer persona changed to Varun Bilal.
+- [Persona Update] Primary buyer persona changed to Samuel.
 - [Deployment Fix] Repository visibility set to Public to resolve Vercel permission errors.
 - [Infrastructure] Validating that public visibility allows Vercel to build the project without team membership.
 
@@ -22,4 +22,4 @@
 ## ⏭️ Immediate Next Execution Objectives
 
 1. Trigger new deployment via GitHub push.
-2. Confirm "Varun Bilal" is visible on the live site.
+2. Confirm "Samuel" is visible on the live site.
